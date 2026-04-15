@@ -29,6 +29,10 @@ public class VisaTypeService {
         return visaTypeRepository.findById(id);
     }
 
+    public Optional<VisaType> getTypeVisaByLibelle(String name) {
+        return visaTypeRepository.findByLibelle(name);
+    }
+
     public void deleteTypeVisa(int id) {
         visaTypeRepository.deleteById(id);
     }

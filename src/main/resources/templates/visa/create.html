@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create visa</title>
+</head>
+
+<body>
+    <form action="#" th:action="@{/visa}" method="post" th:object="${personne}">
+        <ul>
+            <li>
+                <label for="nom">Nom</label>
+                <input type="text" id="nom" th:field="*{name}">
+            </li>
+            <li>
+                <label for="prenom">Prenom</label>
+                <input type="text" id="prenom" th:field="*{last_name}">
+            </li>
+            <li>
+                <label for="date_naissance">Date de naissance</label>
+                <input type="date" id="date_naissance" th:field="*{birthdate}">
+            </li>
+            <li>
+                <label for="lieu_naissance">Lieu de naissance</label>
+                <input type="text" id="lieu_naissance" th:field="*{location_birth}">
+            </li>
+            <li>
+                <label for="situation_familiale">Situation familiale</label>
+                <select id="situation_familiale" th:field="*{family_situation}">
+                    <option value="mariee">mariee</option>
+                    <option value="celibataire">celibataire</option>
+                </select>
+            </li>
+            <li>
+                <label for="ancienne_adresse">Ancienne adresse</label>
+                <input type="text" id="ancienne_adresse" th:field="*{old_address}">
+            </li>
+            <li>
+                <label for="adresse_actuelle">Adresse actuelle</label>
+                <input type="text" id="adresse_actuelle" th:field="*{actual_address}">
+            </li>
+            <li>
+                <label for="nationalite">Nationalite</label>
+                <input type="text" id="nationalite" th:field="*{nationalite}">
+            </li>
+            <li>
+                <label for="profession">Profession</label>
+                <input type="text" id="profession" th:field="*{profession}">
+            </li>
+
+            <li>
+                <label for="visa_option">Visa type</label>
+                <select name="visa_option" id="visa_option">
+                    <option value="Travailleur">Travailleur</option>
+                    <option value="Investisseur">Investisseur</option>
+                </select>
+            </li>
+
+            <li>
+                <label for="useful_doc">document a fournir</label>
+
+                
+
+            </li>
+
+            <li>
+                <button type="submit">Creer visa</button>
+            </li>
+        </ul>
+    </form>
+</body>
+
+</html>

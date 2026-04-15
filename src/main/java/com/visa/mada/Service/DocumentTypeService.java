@@ -25,6 +25,10 @@ public class DocumentTypeService {
         return documentTypeRepository.findAll();
     }
 
+    public List<DocumentType> getAllTypesDocumentByVisaTypeId(int visaTypeId) {
+        return documentTypeRepository.findByVisaTypeId(visaTypeId);
+    }
+
     public Optional<DocumentType> getTypeDocumentById(int id) {
         return documentTypeRepository.findById(id);
     }

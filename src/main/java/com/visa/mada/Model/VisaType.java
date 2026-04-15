@@ -1,10 +1,15 @@
 package com.visa.mada.Model;
 
+import java.util.List;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 @Entity
@@ -21,6 +26,10 @@ public class VisaType {
 
     @Column(name = "est_transformable")
     private Boolean estTransformable;
+
+    @OneToMany(mappedBy = "visaType")
+    @JsonIgnore
+    private List<DocumentType> documentTypes;
 
     public VisaType() {
     }
@@ -53,5 +62,13 @@ public class VisaType {
 
     public void setEstTransformable(Boolean estTransformable) {
         this.estTransformable = estTransformable;
+    }
+
+    public List<DocumentType> getDocumentTypes() {
+        return documentTypes;
+    }
+
+    public void setDocumentTypes(List<DocumentType> documentTypes) {
+        this.documentTypes = documentTypes;
     }
 }
