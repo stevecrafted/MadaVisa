@@ -8,8 +8,8 @@ import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "demande_statut_historique")
-@IdClass(VisaHistoryId.class)
-public class VisaHistory {
+@IdClass(DemandeStatutHistoriqueId.class)
+public class DemandeStatutHistorique {
 
     @Id
     @Column(name = "id_demande")
@@ -22,10 +22,10 @@ public class VisaHistory {
     @Column(name = "motif")
     private String motif;
 
-    public VisaHistory() {
+    public DemandeStatutHistorique() {
     }
 
-    public VisaHistory(Integer idDemande, Integer idStatutDemande, String motif) {
+    public DemandeStatutHistorique(Integer idDemande, Integer idStatutDemande, String motif) {
         this.idDemande = idDemande;
         this.idStatutDemande = idStatutDemande;
         this.motif = motif;
@@ -53,9 +53,5 @@ public class VisaHistory {
 
     public void setMotif(String motif) {
         this.motif = motif;
-    }
-
-    public VisaHistoryId getId() {
-        return new VisaHistoryId(idDemande, idStatutDemande);
     }
 }

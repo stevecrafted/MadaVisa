@@ -1,0 +1,42 @@
+package com.visa.mada.Model;
+
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
+
+@Entity
+@Table(name = "type_demande")
+public class TypeDemande {
+
+    @Id
+    @Column(name = "id_type_demande")
+    private Integer idTypeDemande;
+
+    @Column(name = "libelle")
+    private String libelle;
+
+    public TypeDemande() {
+    }
+
+    public TypeDemande(Integer idTypeDemande, String libelle) {
+        this.idTypeDemande = idTypeDemande;
+        this.libelle = libelle;
+    }
+
+    public Integer getIdTypeDemande() {
+        return idTypeDemande;
+    }
+
+    public void setIdTypeDemande(Integer idTypeDemande) {
+        this.idTypeDemande = idTypeDemande;
+    }
+
+    public String getLibelle() {
+        return libelle;
+    }
+
+    public void setLibelle(String libelle) {
+        this.libelle = libelle;
+    }
+}

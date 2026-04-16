@@ -1,79 +1,58 @@
 package com.visa.mada.Model;
 
-import java.time.LocalDate;
-
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
-import jakarta.validation.constraints.NotNull;
 
 @Entity
-@Table(name = "visa_document")
+@Table(name = "visa_doc")
 public class VisaDocument {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
-    private int id;
+    @Column(name = "id_visa_doc")
+    private Integer idVisaDoc;
 
-    @ManyToOne(optional = false)
-    @JoinColumn(name = "visa_historique_type_id", nullable = false)
-    @NotNull(message = "Le visa est obligatoire")
-    private VisaHistory visa;
+    @Column(name = "id_type_document")
+    private Integer idTypeDocument;
 
-    @ManyToOne(optional = false)
-    @JoinColumn(name = "type_document_id", nullable = false)
-    @NotNull(message = "Le type de document est obligatoire")
-    private DocumentType documentType;
-
-    @Column(name = "date_depot")
-    @NotNull(message = "La date de depot est obligatoire")
-    private LocalDate dateDepot;
+    @Column(name = "id_demande")
+    private Integer idDemande;
 
     public VisaDocument() {
     }
 
-    public VisaDocument(int id, VisaHistory visa, DocumentType documentType, LocalDate dateDepot) {
-        this.id = id;
-        this.visa = visa;
-        this.documentType = documentType;
-        this.dateDepot = dateDepot;
+    public VisaDocument(Integer idVisaDoc, Integer idTypeDocument, Integer idDemande) {
+        this.idVisaDoc = idVisaDoc;
+        this.idTypeDocument = idTypeDocument;
+        this.idDemande = idDemande;
     }
 
-    public int getId() {
-        return id;
+    public Integer getIdVisaDoc() {
+        return idVisaDoc;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setIdVisaDoc(Integer idVisaDoc) {
+        this.idVisaDoc = idVisaDoc;
     }
 
-    public VisaHistory getVisa() {
-        return visa;
+    public Integer getIdTypeDocument() {
+        return idTypeDocument;
     }
 
-    public void setVisa(VisaHistory visa) {
-        this.visa = visa;
+    public void setIdTypeDocument(Integer idTypeDocument) {
+        this.idTypeDocument = idTypeDocument;
     }
 
-    public DocumentType getDocumentType() {
-        return documentType;
+    public Integer getIdDemande() {
+        return idDemande;
     }
 
-    public void setDocumentType(DocumentType documentType) {
-        this.documentType = documentType;
+    public void setIdDemande(Integer idDemande) {
+        this.idDemande = idDemande;
     }
 
-    public LocalDate getDateDepot() {
-        return dateDepot;
-    }
-
-    public void setDateDepot(LocalDate dateDepot) {
-        this.dateDepot = dateDepot;
+    public Integer getId() {
+        return idVisaDoc;
     }
 }

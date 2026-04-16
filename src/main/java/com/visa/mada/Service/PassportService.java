@@ -17,19 +17,39 @@ public class PassportService {
         this.passportRepository = passportRepository;
     }
 
-    public Passport creerPasseport(Passport passport) {
+    public Passport create(Passport passport) {
         return passportRepository.save(passport);
     }
 
-    public List<Passport> getAllPasseports() {
+    public List<Passport> getAll() {
         return passportRepository.findAll();
     }
 
-    public Optional<Passport> getPasseportById(int id) {
+    public Optional<Passport> getById(Integer id) {
         return passportRepository.findById(id);
     }
 
-    public void deletePasseport(int id) {
+    public Passport update(Passport passport) {
+        return passportRepository.save(passport);
+    }
+
+    public void delete(Integer id) {
         passportRepository.deleteById(id);
+    }
+
+    public Passport creerPasseport(Passport passport) {
+        return create(passport);
+    }
+
+    public List<Passport> getAllPasseports() {
+        return getAll();
+    }
+
+    public Optional<Passport> getPasseportById(int id) {
+        return getById(id);
+    }
+
+    public void deletePasseport(int id) {
+        delete(id);
     }
 }

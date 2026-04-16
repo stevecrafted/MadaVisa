@@ -30,10 +30,10 @@ CREATE TABLE type_demande(
 
 CREATE TABLE demandeur(
    id_demandeur INTEGER,
-   name VARCHAR(250) ,
-   last_name VARCHAR(250) ,
-   birthdate DATE,
-   location_birth VARCHAR(250) ,
+   nom VARCHAR(250) ,
+   prenom VARCHAR(250) ,
+   datenaissance DATE,
+   lieunaissance VARCHAR(250) ,
    adresse_mada VARCHAR(50) ,
    email VARCHAR(50) ,
    id_situation_familiale INTEGER NOT NULL,
@@ -47,7 +47,7 @@ CREATE TABLE demandeur(
 CREATE TABLE passport(
    id_passport INTEGER,
    date_delivrance DATE,
-   expiration_date DATE,
+   date_expiration DATE,
    numero VARCHAR(50)  NOT NULL,
    pays_delivrance VARCHAR(50) ,
    id_demandeur INTEGER NOT NULL,
@@ -71,7 +71,7 @@ CREATE TABLE visa_transformable(
 
 CREATE TABLE demande(
    id_demande INTEGER,
-   demande_date DATE,
+   date_demande DATE,
    id_visa_transformable INTEGER NOT NULL,
    id_type_demande INTEGER NOT NULL,
    id_demandeur INTEGER NOT NULL,
@@ -84,7 +84,7 @@ CREATE TABLE demande(
 CREATE TABLE carte_resident(
    id_carte_resident INTEGER,
    livraison_date DATE,
-   exit_date DATE,
+   date_expiration DATE,
    reference VARCHAR(50) ,
    id_passport INTEGER NOT NULL,
    id_demande INTEGER NOT NULL,
@@ -96,7 +96,7 @@ CREATE TABLE carte_resident(
 CREATE TABLE visa(
    id_visa INTEGER,
    livraison_date DATE,
-   exit_date DATE,
+   date_expiration DATE,
    reference VARCHAR(50) ,
    id_passport INTEGER NOT NULL,
    id_demande INTEGER NOT NULL,
@@ -108,7 +108,7 @@ CREATE TABLE visa(
 CREATE TABLE visa_type(
    id_visa_type INTEGER,
    libelle VARCHAR(50) ,
-   is_to_choose BOOLEAN,
+   est_a_choisir BOOLEAN,
    id_demande INTEGER NOT NULL,
    PRIMARY KEY(id_visa_type),
    UNIQUE(id_demande),
@@ -117,7 +117,7 @@ CREATE TABLE visa_type(
 
 CREATE TABLE type_document(
    id_type_document INTEGER,
-   document_name VARCHAR(50) ,
+   nom_document VARCHAR(50) ,
    est_obligatoire BOOLEAN,
    est_commun BOOLEAN,
    id_visa_type INTEGER NOT NULL,

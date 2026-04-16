@@ -8,12 +8,12 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 
 @Entity
-@Table(name = "visa")
-public class Visa {
+@Table(name = "carte_resident")
+public class CarteResident {
 
     @Id
-    @Column(name = "id_visa")
-    private Integer idVisa;
+    @Column(name = "id_carte_resident")
+    private Integer idCarteResident;
 
     @Column(name = "livraison_date")
     private LocalDate dateLivraison;
@@ -30,12 +30,12 @@ public class Visa {
     @Column(name = "id_demande")
     private Integer idDemande;
 
-    public Visa() {
+    public CarteResident() {
     }
 
-    public Visa(Integer idVisa, LocalDate dateLivraison, LocalDate dateExpiration, String reference,
+    public CarteResident(Integer idCarteResident, LocalDate dateLivraison, LocalDate dateExpiration, String reference,
             Integer idPasseport, Integer idDemande) {
-        this.idVisa = idVisa;
+        this.idCarteResident = idCarteResident;
         this.dateLivraison = dateLivraison;
         this.dateExpiration = dateExpiration;
         this.reference = reference;
@@ -43,12 +43,12 @@ public class Visa {
         this.idDemande = idDemande;
     }
 
-    public Integer getIdVisa() {
-        return idVisa;
+    public Integer getIdCarteResident() {
+        return idCarteResident;
     }
 
-    public void setIdVisa(Integer idVisa) {
-        this.idVisa = idVisa;
+    public void setIdCarteResident(Integer idCarteResident) {
+        this.idCarteResident = idCarteResident;
     }
 
     public LocalDate getDateLivraison() {

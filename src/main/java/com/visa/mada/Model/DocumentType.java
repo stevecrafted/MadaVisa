@@ -2,95 +2,94 @@ package com.visa.mada.Model;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Size;
 
 @Entity
 @Table(name = "type_document")
 public class DocumentType {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
-    private int id;
+    @Column(name = "id_type_document")
+    private Integer idTypeDocument;
 
-    @Column(name = "nom_document", nullable = false, unique = true, length = 50)
-    @NotBlank(message = "Le nom du document est obligatoire")
-    @Size(max = 50, message = "Le nom du document ne peut pas depasser 50 caracteres")
-    private String documentName;
+    @Column(name = "nom_document")
+    private String nomDocument;
 
-    @Column(name = "is_commun", nullable = false)
-    @NotNull(message = "Le champ is_commun est obligatoire")
-    private Boolean isCommun;
+    @Column(name = "est_obligatoire")
+    private Boolean estObligatoire;
 
-    @ManyToOne(optional = false)
-    @JoinColumn(name = "idvisatype", nullable = false)
-    @NotNull(message = "Le type de visa associe est obligatoire")
-    private VisaType visaType;
+    @Column(name = "est_commun")
+    private Boolean estCommun;
+
+    @Column(name = "id_visa_type")
+    private Integer idVisaType;
 
     public DocumentType() {
     }
 
-    public DocumentType(int id, String documentName) {
-        this.id = id;
-        this.documentName = documentName;
+    public DocumentType(Integer idTypeDocument, String nomDocument, Boolean estObligatoire, Boolean estCommun,
+            Integer idVisaType) {
+        this.idTypeDocument = idTypeDocument;
+        this.nomDocument = nomDocument;
+        this.estObligatoire = estObligatoire;
+        this.estCommun = estCommun;
+        this.idVisaType = idVisaType;
     }
 
-    public DocumentType(int id, String documentName, Boolean isCommun) {
-        this.id = id;
-        this.documentName = documentName;
-        this.isCommun = isCommun;
+    public Integer getIdTypeDocument() {
+        return idTypeDocument;
     }
 
-    public DocumentType(int id, String documentName, VisaType visaType) {
-        this.id = id;
-        this.documentName = documentName;
-        this.visaType = visaType;
+    public void setIdTypeDocument(Integer idTypeDocument) {
+        this.idTypeDocument = idTypeDocument;
     }
 
-    public DocumentType(int id, String documentName, Boolean isCommun, VisaType visaType) {
-        this.id = id;
-        this.documentName = documentName;
-        this.isCommun = isCommun;
-        this.visaType = visaType;
+    public String getNomDocument() {
+        return nomDocument;
     }
 
-    public int getId() {
-        return id;
+    public void setNomDocument(String nomDocument) {
+        this.nomDocument = nomDocument;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public Boolean getEstObligatoire() {
+        return estObligatoire;
     }
 
-    public String getDocumentName() {
-        return documentName;
+    public void setEstObligatoire(Boolean estObligatoire) {
+        this.estObligatoire = estObligatoire;
     }
 
-    public void setDocumentName(String documentName) {
-        this.documentName = documentName;
+    public Boolean getEstCommun() {
+        return estCommun;
+    }
+
+    public void setEstCommun(Boolean estCommun) {
+        this.estCommun = estCommun;
+    }
+
+    public Integer getIdVisaType() {
+        return idVisaType;
+    }
+
+    public void setIdVisaType(Integer idVisaType) {
+        this.idVisaType = idVisaType;
+    }
+
+    public Integer getId() {
+        return idTypeDocument;
     }
 
     public Boolean getIsCommun() {
-        return isCommun;
+        return estCommun;
     }
 
-    public void setIsCommun(Boolean isCommun) {
-        this.isCommun = isCommun;
+    public String getDocumentName() {
+        return getNomDocument();
     }
 
-    public VisaType getVisaType() {
-        return visaType;
-    }
-
-    public void setVisaType(VisaType visaType) {
-        this.visaType = visaType;
+    public void setDocumentName(String documentName) {
+        setNomDocument(documentName);
     }
 }

@@ -9,7 +9,7 @@ import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "demandeur")
-public class Personne {
+public class Demandeur {
 
     @Id
     @Column(name = "id_demandeur")
@@ -39,10 +39,10 @@ public class Personne {
     @Column(name = "id_nationalite")
     private Integer idNationalite;
 
-    public Personne() {
+    public Demandeur() {
     }
 
-    public Personne(Integer idDemandeur, String nom, String prenom, LocalDate dateNaissance, String lieuNaissance,
+    public Demandeur(Integer idDemandeur, String nom, String prenom, LocalDate dateNaissance, String lieuNaissance,
             String adresseMada, String email, Integer idSituationFamiliale, Integer idNationalite) {
         this.idDemandeur = idDemandeur;
         this.nom = nom;
@@ -158,5 +158,4 @@ public class Personne {
     public void setIdNationalite(Integer idNationalite) {
         this.idNationalite = idNationalite;
     }
-
 }

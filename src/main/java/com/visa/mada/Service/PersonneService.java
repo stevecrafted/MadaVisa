@@ -17,19 +17,39 @@ public class PersonneService {
         this.personneRepository = personneRepository;
     }
 
-    public Personne creerPersonne(Personne personne) {
+    public Personne create(Personne personne) {
         return personneRepository.save(personne);
     }
 
-    public List<Personne> getAllPersonnes() {
+    public List<Personne> getAll() {
         return personneRepository.findAll();
     }
 
-    public Optional<Personne> getPersonneById(int id) {
+    public Optional<Personne> getById(Integer id) {
         return personneRepository.findById(id);
     }
 
-    public void deletePersonne(int id) {
+    public Personne update(Personne personne) {
+        return personneRepository.save(personne);
+    }
+
+    public void delete(Integer id) {
         personneRepository.deleteById(id);
+    }
+
+    public Personne creerPersonne(Personne personne) {
+        return create(personne);
+    }
+
+    public List<Personne> getAllPersonnes() {
+        return getAll();
+    }
+
+    public Optional<Personne> getPersonneById(int id) {
+        return getById(id);
+    }
+
+    public void deletePersonne(int id) {
+        delete(id);
     }
 }
