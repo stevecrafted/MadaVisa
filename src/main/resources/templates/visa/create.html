@@ -26,17 +26,20 @@
             <li>
                 <label for="prenom">Prenom</label>
                 <input type="text" id="prenom" th:field="*{last_name}">
-                <small th:if="${#fields.hasErrors('last_name')}" th:errors="*{last_name}" style="color: #b00020;"></small>
+                <small th:if="${#fields.hasErrors('last_name')}" th:errors="*{last_name}"
+                    style="color: #b00020;"></small>
             </li>
             <li>
                 <label for="date_naissance">Date de naissance</label>
                 <input type="date" id="date_naissance" th:field="*{birthdate}">
-                <small th:if="${#fields.hasErrors('birthdate')}" th:errors="*{birthdate}" style="color: #b00020;"></small>
+                <small th:if="${#fields.hasErrors('birthdate')}" th:errors="*{birthdate}"
+                    style="color: #b00020;"></small>
             </li>
             <li>
                 <label for="lieu_naissance">Lieu de naissance</label>
                 <input type="text" id="lieu_naissance" th:field="*{location_birth}">
-                <small th:if="${#fields.hasErrors('location_birth')}" th:errors="*{location_birth}" style="color: #b00020;"></small>
+                <small th:if="${#fields.hasErrors('location_birth')}" th:errors="*{location_birth}"
+                    style="color: #b00020;"></small>
             </li>
             <li>
                 <label for="situation_familiale">Situation familiale</label>
@@ -44,27 +47,32 @@
                     <option value="mariee">mariee</option>
                     <option value="celibataire">celibataire</option>
                 </select>
-                <small th:if="${#fields.hasErrors('family_situation')}" th:errors="*{family_situation}" style="color: #b00020;"></small>
+                <small th:if="${#fields.hasErrors('family_situation')}" th:errors="*{family_situation}"
+                    style="color: #b00020;"></small>
             </li>
             <li>
                 <label for="ancienne_adresse">Ancienne adresse</label>
                 <input type="text" id="ancienne_adresse" th:field="*{old_address}">
-                <small th:if="${#fields.hasErrors('old_address')}" th:errors="*{old_address}" style="color: #b00020;"></small>
+                <small th:if="${#fields.hasErrors('old_address')}" th:errors="*{old_address}"
+                    style="color: #b00020;"></small>
             </li>
             <li>
                 <label for="adresse_actuelle">Adresse actuelle</label>
                 <input type="text" id="adresse_actuelle" th:field="*{actual_address}">
-                <small th:if="${#fields.hasErrors('actual_address')}" th:errors="*{actual_address}" style="color: #b00020;"></small>
+                <small th:if="${#fields.hasErrors('actual_address')}" th:errors="*{actual_address}"
+                    style="color: #b00020;"></small>
             </li>
             <li>
                 <label for="nationalite">Nationalite</label>
                 <input type="text" id="nationalite" th:field="*{nationalite}">
-                <small th:if="${#fields.hasErrors('nationalite')}" th:errors="*{nationalite}" style="color: #b00020;"></small>
+                <small th:if="${#fields.hasErrors('nationalite')}" th:errors="*{nationalite}"
+                    style="color: #b00020;"></small>
             </li>
             <li>
                 <label for="profession">Profession</label>
                 <input type="text" id="profession" th:field="*{profession}">
-                <small th:if="${#fields.hasErrors('profession')}" th:errors="*{profession}" style="color: #b00020;"></small>
+                <small th:if="${#fields.hasErrors('profession')}" th:errors="*{profession}"
+                    style="color: #b00020;"></small>
             </li>
 
             <li>
@@ -93,55 +101,62 @@
         const VisaOption = document.getElementById('visa_option');
         const usefullDocuments = document.getElementById('use_full_documents');
 
-        fetch(`/madavisa/api/typevisa`)
-            .then(response => response.json())
-            .then(data => {
-                // Vider les options actuelles
-                VisaOption.innerHTML = '';
+        madavisaApiTypeVisa();
+        madavisaApiDocumentType();
 
-                // Ajouter chaque type reçu
-                data.forEach(visaType => {
-                    const option = document.createElement('option');
-                    option.value = visaType.id;
-                    option.text = visaType.libelle;
-                    VisaOption.appendChild(option);
-                });
-            })
-            .catch(error => {
-                console.error('Erreur lors du chargement des types de visa:', error);
-                usefullDocuments.innerHTML = '<option>Erreur de chargement</option>';
-            });
-
-        // Écouter le changement de la catégorie
-        VisaOption.addEventListener('change', function () {
-            const visaOption = VisaOption.value;
-
-            // Appel AJAX vers l'API REST
-            fetch(`/madavisa/api/DocumentType/${visaOption}`)
+        function madavisaApiTypeVisa() {
+            fetch(`/madavisa/api/typevisa`)
                 .then(response => response.json())
                 .then(data => {
-                    usefullDocuments.innerHTML = ''; // Vider le conteneur
+                    // Vider les options actuelles
+                    VisaOption.innerHTML = '';
 
-                    data.forEach(doc => {
-
-                        const label = document.createElement('label');
-
-                        const checkBoxOption = document.createElement('input');
-                        checkBoxOption.type = 'checkbox';
-                        checkBoxOption.name = 'documentIds';
-                        checkBoxOption.value = doc.id;
-
-                        label.appendChild(checkBoxOption);
-                        label.appendChild(document.createTextNode(' ' + doc.documentName));
-
-                        usefullDocuments.appendChild(label);
-                        usefullDocuments.appendChild(document.createElement('br'));
-                    })
+                    // Ajouter chaque type reçu
+                    data.forEach(visaType => {
+                        const option = document.createElement('option');
+                        option.value = visaType.id;
+                        option.text = visaType.libelle;
+                        VisaOption.appendChild(option);
+                    });
                 })
                 .catch(error => {
                     console.error('Erreur lors du chargement des types de visa:', error);
-                    usefullDocuments.innerHTML = '<h4>Erreur de chargement</h4>';
+                    usefullDocuments.innerHTML = '<option>Erreur de chargement</option>';
                 });
-        });
+        }
+
+        function madavisaApiDocumentType() {
+            // Écouter le changement de la catégorie
+            VisaOption.addEventListener('change', function () {
+                const visaOption = VisaOption.value;
+
+                // Appel AJAX vers l'API REST
+                fetch(`/madavisa/api/DocumentType/${visaOption}`)
+                    .then(response => response.json())
+                    .then(data => {
+                        usefullDocuments.innerHTML = ''; // Vider le conteneur
+
+                        data.forEach(doc => {
+
+                            const label = document.createElement('label');
+
+                            const checkBoxOption = document.createElement('input');
+                            checkBoxOption.type = 'checkbox';
+                            checkBoxOption.name = 'documentIds';
+                            checkBoxOption.value = doc.id;
+
+                            label.appendChild(checkBoxOption);
+                            label.appendChild(document.createTextNode(' ' + doc.documentName));
+
+                            usefullDocuments.appendChild(label);
+                            usefullDocuments.appendChild(document.createElement('br'));
+                        })
+                    })
+                    .catch(error => {
+                        console.error('Erreur lors du chargement des types de visa:', error);
+                        usefullDocuments.innerHTML = '<h4>Erreur de chargement</h4>';
+                    });
+            });
+        }
     });
 </script>
