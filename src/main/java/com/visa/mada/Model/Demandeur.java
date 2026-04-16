@@ -4,7 +4,11 @@ import java.time.LocalDate;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.JoinColumn;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
@@ -17,7 +21,7 @@ public class Demandeur {
 
     @Id
     @Column(name = "id_demandeur")
-    @NotNull
+    @GeneratedValue(strategy = GenerationType.IDENTITY) 
     private Integer idDemandeur;
 
     @Column(name = "nom")
@@ -46,19 +50,19 @@ public class Demandeur {
     @Email
     private String email;
 
-    @Column(name = "id_situation_familiale")
-    @NotNull
-    private Integer idSituationFamiliale;
+    @ManyToOne
+    @JoinColumn(name = "id_situation_familiale")
+    private SituationFamiliale situationFamiliale;
 
-    @Column(name = "id_nationalite")
-    @NotNull
-    private Integer idNationalite;
+    @ManyToOne
+    @JoinColumn(name = "id_nationalite")
+    private Nationalite nationalite;
 
     public Demandeur() {
     }
 
     public Demandeur(Integer idDemandeur, String nom, String prenom, LocalDate dateNaissance, String lieuNaissance,
-            String adresseMada, String email, Integer idSituationFamiliale, Integer idNationalite) {
+            String adresseMada, String email, SituationFamiliale situationFamiliale, Nationalite nationalite) {
         this.idDemandeur = idDemandeur;
         this.nom = nom;
         this.prenom = prenom;
@@ -66,8 +70,8 @@ public class Demandeur {
         this.lieuNaissance = lieuNaissance;
         this.adresseMada = adresseMada;
         this.email = email;
-        this.idSituationFamiliale = idSituationFamiliale;
-        this.idNationalite = idNationalite;
+        this.situationFamiliale = situationFamiliale;
+        this.nationalite = nationalite;
     }
 
     public Integer getIdDemandeur() {
@@ -114,6 +118,33 @@ public class Demandeur {
         return getNom();
     }
 
+    public SituationFamiliale getSituationFamiliale() {
+        return situationFamiliale;
+    }
+
+    public void setSituationFamiliale(SituationFamiliale situationFamiliale) {
+        this.situationFamiliale = situationFamiliale;
+    }
+
+    public Integer getIdNationalite() {
+        return nationalite != null ? nationalite.getIdNationalite() : null;
+    }
+
+    public void setIdNationalite(Integer idNationalite) {
+        if (this.nationalite == null) {
+            this.nationalite = new Nationalite();
+        }
+        this.nationalite.setIdNationalite(idNationalite);
+    }
+
+    public Nationalite getNationalite() {
+        return nationalite;
+    }
+
+    public void setNationalite(Nationalite nationalite) {
+        this.nationalite = nationalite;
+    }
+
     public void setName(String name) {
         setNom(name);
     }
@@ -157,20 +188,5 @@ public class Demandeur {
     public void setEmail(String email) {
         this.email = email;
     }
-
-    public Integer getIdSituationFamiliale() {
-        return idSituationFamiliale;
-    }
-
-    public void setIdSituationFamiliale(Integer idSituationFamiliale) {
-        this.idSituationFamiliale = idSituationFamiliale;
-    }
-
-    public Integer getIdNationalite() {
-        return idNationalite;
-    }
-
-    public void setIdNationalite(Integer idNationalite) {
-        this.idNationalite = idNationalite;
-    }
+ 
 }

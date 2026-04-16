@@ -4,7 +4,11 @@ import java.time.LocalDate;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.JoinColumn;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.FutureOrPresent;
 import jakarta.validation.constraints.NotBlank;
@@ -17,7 +21,7 @@ public class VisaTransformable {
 
     @Id
     @Column(name = "id_visa_transformable")
-    @NotNull
+    @GeneratedValue(strategy = GenerationType.IDENTITY) 
     private Integer idVisaTransformable;
 
     @Column(name = "numero")
@@ -34,25 +38,25 @@ public class VisaTransformable {
     @FutureOrPresent
     private LocalDate dateExpiration;
 
-    @Column(name = "id_passport")
-    @NotNull
-    private Integer idPasseport;
+    @ManyToOne
+    @JoinColumn(name = "id_passport")
+    private Passport passport;
 
-    @Column(name = "id_demandeur")
-    @NotNull
-    private Integer idDemandeur;
+    @ManyToOne
+    @JoinColumn(name = "id_demandeur")
+    private Demandeur demandeur;
 
     public VisaTransformable() {
     }
 
     public VisaTransformable(Integer idVisaTransformable, String numero, LocalDate dateLivraison,
-            LocalDate dateExpiration, Integer idPasseport, Integer idDemandeur) {
+            LocalDate dateExpiration, Passport passport, Demandeur demandeur) {
         this.idVisaTransformable = idVisaTransformable;
         this.numero = numero;
         this.dateLivraison = dateLivraison;
         this.dateExpiration = dateExpiration;
-        this.idPasseport = idPasseport;
-        this.idDemandeur = idDemandeur;
+        this.passport = passport;
+        this.demandeur = demandeur;
     }
 
     public Integer getIdVisaTransformable() {
@@ -88,19 +92,35 @@ public class VisaTransformable {
     }
 
     public Integer getIdPasseport() {
-        return idPasseport;
+        return passport != null ? passport.getIdPasseport() : null;
     }
 
     public void setIdPasseport(Integer idPasseport) {
-        this.idPasseport = idPasseport;
+        // This is handled by passport relationship
+    }
+
+    public Passport getPassport() {
+        return passport;
+    }
+
+    public void setPassport(Passport passport) {
+        this.passport = passport;
     }
 
     public Integer getIdDemandeur() {
-        return idDemandeur;
+        return demandeur != null ? demandeur.getIdDemandeur() : null;
     }
 
     public void setIdDemandeur(Integer idDemandeur) {
-        this.idDemandeur = idDemandeur;
+        // This is handled by demandeur relationship
+    }
+
+    public Demandeur getDemandeur() {
+        return demandeur;
+    }
+
+    public void setDemandeur(Demandeur demandeur) {
+        this.demandeur = demandeur;
     }
 
     public Integer getIdPassport() {

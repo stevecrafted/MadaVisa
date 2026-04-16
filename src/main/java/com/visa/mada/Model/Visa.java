@@ -4,7 +4,11 @@ import java.time.LocalDate;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.JoinColumn;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.FutureOrPresent;
 import jakarta.validation.constraints.NotBlank;
@@ -17,7 +21,7 @@ public class Visa {
 
     @Id
     @Column(name = "id_visa")
-    @NotNull
+    @GeneratedValue(strategy = GenerationType.IDENTITY) 
     private Integer idVisa;
 
     @Column(name = "livraison_date")
@@ -34,25 +38,25 @@ public class Visa {
     @NotBlank
     private String reference;
 
-    @Column(name = "id_passport")
-    @NotNull
-    private Integer idPasseport;
+    @ManyToOne
+    @JoinColumn(name = "id_passport")
+    private Passport passport;
 
-    @Column(name = "id_demande")
-    @NotNull
-    private Integer idDemande;
+    @ManyToOne
+    @JoinColumn(name = "id_demande")
+    private Demande demande;
 
     public Visa() {
     }
 
     public Visa(Integer idVisa, LocalDate dateLivraison, LocalDate dateExpiration, String reference,
-            Integer idPasseport, Integer idDemande) {
+            Passport passport, Demande demande) {
         this.idVisa = idVisa;
         this.dateLivraison = dateLivraison;
         this.dateExpiration = dateExpiration;
         this.reference = reference;
-        this.idPasseport = idPasseport;
-        this.idDemande = idDemande;
+        this.passport = passport;
+        this.demande = demande;
     }
 
     public Integer getIdVisa() {
@@ -88,19 +92,35 @@ public class Visa {
     }
 
     public Integer getIdPasseport() {
-        return idPasseport;
+        return passport != null ? passport.getIdPasseport() : null;
     }
 
     public void setIdPasseport(Integer idPasseport) {
-        this.idPasseport = idPasseport;
+        // This is handled by passport relationship
+    }
+
+    public Passport getPassport() {
+        return passport;
+    }
+
+    public void setPassport(Passport passport) {
+        this.passport = passport;
     }
 
     public Integer getIdDemande() {
-        return idDemande;
+        return demande != null ? demande.getIdDemande() : null;
     }
 
     public void setIdDemande(Integer idDemande) {
-        this.idDemande = idDemande;
+        // This is handled by demande relationship
+    }
+
+    public Demande getDemande() {
+        return demande;
+    }
+
+    public void setDemande(Demande demande) {
+        this.demande = demande;
     }
 
     public LocalDate getLivraisonDate() {

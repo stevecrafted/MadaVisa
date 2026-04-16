@@ -4,7 +4,11 @@ import java.time.LocalDate;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.JoinColumn;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.PastOrPresent;
@@ -15,7 +19,7 @@ public class Demande {
 
     @Id
     @Column(name = "id_demande")
-    @NotNull
+    @GeneratedValue(strategy = GenerationType.IDENTITY) 
     private Integer idDemande;
 
     @Column(name = "date_demande")
@@ -23,33 +27,33 @@ public class Demande {
     @PastOrPresent
     private LocalDate dateDemande;
 
-    @Column(name = "id_visa_transformable")
-    @NotNull
-    private Integer idVisaTransformable;
+    @ManyToOne
+    @JoinColumn(name = "id_visa_transformable")
+    private VisaTransformable visaTransformable;
 
-    @Column(name = "id_type_demande")
-    @NotNull
-    private Integer idTypeDemande;
+    @ManyToOne
+    @JoinColumn(name = "id_type_demande")
+    private TypeDemande typeDemande;
 
-    @Column(name = "id_demandeur")
-    @NotNull
-    private Integer idDemandeur;
+    @ManyToOne
+    @JoinColumn(name = "id_demandeur")
+    private Demandeur demandeur;
 
-    @Column(name = "id_visa_type")
-    @NotNull
-    private Integer idVisaType;
+    @ManyToOne
+    @JoinColumn(name = "id_visa_type")
+    private VisaType visaType;
 
     public Demande() {
     }
 
-    public Demande(Integer idDemande, LocalDate dateDemande, Integer idVisaTransformable, Integer idTypeDemande,
-            Integer idDemandeur, Integer idVisaType) {
+    public Demande(Integer idDemande, LocalDate dateDemande, VisaTransformable visaTransformable, TypeDemande typeDemande,
+            Demandeur demandeur, VisaType visaType) {
         this.idDemande = idDemande;
         this.dateDemande = dateDemande;
-        this.idVisaTransformable = idVisaTransformable;
-        this.idTypeDemande = idTypeDemande;
-        this.idDemandeur = idDemandeur;
-        this.idVisaType = idVisaType;
+        this.visaTransformable = visaTransformable;
+        this.typeDemande = typeDemande;
+        this.demandeur = demandeur;
+        this.visaType = visaType;
     }
 
     public Integer getIdDemande() {
@@ -69,35 +73,67 @@ public class Demande {
     }
 
     public Integer getIdVisaTransformable() {
-        return idVisaTransformable;
+        return visaTransformable != null ? visaTransformable.getIdVisaTransformable() : null;
     }
 
     public void setIdVisaTransformable(Integer idVisaTransformable) {
-        this.idVisaTransformable = idVisaTransformable;
+        // This is handled by visaTransformable relationship
+    }
+
+    public VisaTransformable getVisaTransformable() {
+        return visaTransformable;
+    }
+
+    public void setVisaTransformable(VisaTransformable visaTransformable) {
+        this.visaTransformable = visaTransformable;
     }
 
     public Integer getIdTypeDemande() {
-        return idTypeDemande;
+        return typeDemande != null ? typeDemande.getIdTypeDemande() : null;
     }
 
     public void setIdTypeDemande(Integer idTypeDemande) {
-        this.idTypeDemande = idTypeDemande;
+        // This is handled by typeDemande relationship
+    }
+
+    public TypeDemande getTypeDemande() {
+        return typeDemande;
+    }
+
+    public void setTypeDemande(TypeDemande typeDemande) {
+        this.typeDemande = typeDemande;
     }
 
     public Integer getIdDemandeur() {
-        return idDemandeur;
+        return demandeur != null ? demandeur.getIdDemandeur() : null;
     }
 
     public void setIdDemandeur(Integer idDemandeur) {
-        this.idDemandeur = idDemandeur;
+        // This is handled by demandeur relationship
+    }
+
+    public Demandeur getDemandeur() {
+        return demandeur;
+    }
+
+    public void setDemandeur(Demandeur demandeur) {
+        this.demandeur = demandeur;
     }
 
     public Integer getIdVisaType() {
-        return idVisaType;
+        return visaType != null ? visaType.getIdVisaType() : null;
     }
 
     public void setIdVisaType(Integer idVisaType) {
-        this.idVisaType = idVisaType;
+        // This is handled by visaType relationship
+    }
+
+    public VisaType getVisaType() {
+        return visaType;
+    }
+
+    public void setVisaType(VisaType visaType) {
+        this.visaType = visaType;
     }
 
     public LocalDate getDemandeDate() {

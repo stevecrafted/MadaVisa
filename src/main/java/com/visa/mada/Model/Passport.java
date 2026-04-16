@@ -4,7 +4,11 @@ import java.time.LocalDate;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.JoinColumn;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.FutureOrPresent;
 import jakarta.validation.constraints.NotBlank;
@@ -17,7 +21,7 @@ public class Passport {
 
     @Id
     @Column(name = "id_passport")
-    @NotNull
+    @GeneratedValue(strategy = GenerationType.IDENTITY) 
     private Integer idPasseport;
 
     @Column(name = "date_delivrance")
@@ -38,21 +42,21 @@ public class Passport {
     @NotBlank
     private String paysDelivrance;
 
-    @Column(name = "id_demandeur")
-    @NotNull
-    private Integer idDemandeur;
+    @ManyToOne
+    @JoinColumn(name = "id_demandeur")
+    private Demandeur demandeur;
 
     public Passport() {
     }
 
     public Passport(Integer idPasseport, LocalDate dateDelivrance, LocalDate dateExpiration, String numero,
-            String paysDelivrance, Integer idDemandeur) {
+            String paysDelivrance, Demandeur demandeur) {
         this.idPasseport = idPasseport;
         this.dateDelivrance = dateDelivrance;
         this.dateExpiration = dateExpiration;
         this.numero = numero;
         this.paysDelivrance = paysDelivrance;
-        this.idDemandeur = idDemandeur;
+        this.demandeur = demandeur;
     }
 
     public Integer getIdPasseport() {
@@ -96,11 +100,19 @@ public class Passport {
     }
 
     public Integer getIdDemandeur() {
-        return idDemandeur;
+        return demandeur != null ? demandeur.getIdDemandeur() : null;
     }
 
     public void setIdDemandeur(Integer idDemandeur) {
-        this.idDemandeur = idDemandeur;
+        // This is handled by demandeur relationship
+    }
+
+    public Demandeur getDemandeur() {
+        return demandeur;
+    }
+
+    public void setDemandeur(Demandeur demandeur) {
+        this.demandeur = demandeur;
     }
 
     public Integer getIdPassport() {

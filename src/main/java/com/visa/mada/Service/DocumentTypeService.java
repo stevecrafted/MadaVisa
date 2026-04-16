@@ -8,14 +8,18 @@ import org.springframework.stereotype.Service;
 
 import com.visa.mada.Model.DocumentType;
 import com.visa.mada.Repository.DocumentTypeRepository;
+import com.visa.mada.Repository.VisaTypeRepository;
 
 @Service
 public class DocumentTypeService {
 
     private final DocumentTypeRepository documentTypeRepository;
+    private final VisaTypeRepository visaTypeRepository;
+    
 
-    public DocumentTypeService(DocumentTypeRepository documentTypeRepository) {
+    public DocumentTypeService(DocumentTypeRepository documentTypeRepository, VisaTypeRepository visaTypeRepository) {
         this.documentTypeRepository = documentTypeRepository;
+        this.visaTypeRepository = visaTypeRepository;
     }
 
     public DocumentType create(DocumentType documentType) {
@@ -47,10 +51,7 @@ public class DocumentTypeService {
     }
 
     public List<DocumentType> getAllTypesDocumentByVisaTypeId(int visaTypeId) {
-        return getAll().stream()
-                .filter(documentType -> Boolean.TRUE.equals(documentType.getEstCommun()))
-                .filter(documentType -> Integer.valueOf(visaTypeId).equals(documentType.getIdVisaType()))
-                .collect(Collectors.toList());
+        return documentTypeRepository.findByVisaType(visaTypeRepository.findById(visaTypeId).get());
     }
 
     public Optional<DocumentType> getTypeDocumentById(int id) {

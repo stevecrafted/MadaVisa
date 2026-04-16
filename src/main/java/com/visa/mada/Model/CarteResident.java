@@ -4,7 +4,11 @@ import java.time.LocalDate;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.JoinColumn;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.FutureOrPresent;
 import jakarta.validation.constraints.NotBlank;
@@ -17,7 +21,7 @@ public class CarteResident {
 
     @Id
     @Column(name = "id_carte_resident")
-    @NotNull
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer idCarteResident;
 
     @Column(name = "livraison_date")
@@ -34,29 +38,33 @@ public class CarteResident {
     @NotBlank
     private String reference;
 
-    @Column(name = "id_passport")
-    @NotNull
-    private Integer idPasseport;
+    @ManyToOne
+    @JoinColumn(name = "id_passport")
+    private Passport passport;
 
-    @Column(name = "id_demande")
-    @NotNull
-    private Integer idDemande;
+    @ManyToOne
+    @JoinColumn(name = "id_demande")
+    private Demande demande;
 
     public CarteResident() {
     }
 
     public CarteResident(Integer idCarteResident, LocalDate dateLivraison, LocalDate dateExpiration, String reference,
-            Integer idPasseport, Integer idDemande) {
+            Passport passport, Demande demande) {
         this.idCarteResident = idCarteResident;
         this.dateLivraison = dateLivraison;
         this.dateExpiration = dateExpiration;
         this.reference = reference;
-        this.idPasseport = idPasseport;
-        this.idDemande = idDemande;
+        this.passport = passport;
+        this.demande = demande;
     }
 
-    public Integer getIdCarteResident() {
-        return idCarteResident;
+    public Passport getPassport() {
+        return passport;
+    }
+
+    public void setPassport(Passport passport) {
+        this.passport = passport;
     }
 
     public void setIdCarteResident(Integer idCarteResident) {
@@ -87,20 +95,20 @@ public class CarteResident {
         this.reference = reference;
     }
 
-    public Integer getIdPasseport() {
-        return idPasseport;
+    public Passport getPasseport() {
+        return this.passport;
     }
 
-    public void setIdPasseport(Integer idPasseport) {
-        this.idPasseport = idPasseport;
+    public void setPasseport(Passport Passeport) {
+        this.passport = Passeport;
     }
 
-    public Integer getIdDemande() {
-        return idDemande;
+    public Demande getDemande() {
+        return this.demande;
     }
 
-    public void setIdDemande(Integer idDemande) {
-        this.idDemande = idDemande;
+    public void setDemande(Demande Demande) {
+        this.demande = Demande;
     }
 
     public LocalDate getLivraisonDate() {
@@ -118,12 +126,5 @@ public class CarteResident {
     public void setExitDate(LocalDate exitDate) {
         setDateExpiration(exitDate);
     }
-
-    public Integer getIdPassport() {
-        return getIdPasseport();
-    }
-
-    public void setIdPassport(Integer idPassport) {
-        setIdPasseport(idPassport);
-    }
+ 
 }

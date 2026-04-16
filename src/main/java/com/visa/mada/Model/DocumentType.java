@@ -2,7 +2,11 @@ package com.visa.mada.Model;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.JoinColumn;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -13,7 +17,7 @@ public class DocumentType {
 
     @Id
     @Column(name = "id_type_document")
-    @NotNull
+    @GeneratedValue(strategy = GenerationType.IDENTITY) 
     private Integer idTypeDocument;
 
     @Column(name = "nom_document")
@@ -28,20 +32,20 @@ public class DocumentType {
     @NotNull
     private Boolean estCommun;
 
-    @Column(name = "id_visa_type")
-    @NotNull
-    private Integer idVisaType;
+    @ManyToOne
+    @JoinColumn(name = "id_visa_type")
+    private VisaType visaType;
 
     public DocumentType() {
     }
 
     public DocumentType(Integer idTypeDocument, String nomDocument, Boolean estObligatoire, Boolean estCommun,
-            Integer idVisaType) {
+            VisaType visaType) {
         this.idTypeDocument = idTypeDocument;
         this.nomDocument = nomDocument;
         this.estObligatoire = estObligatoire;
         this.estCommun = estCommun;
-        this.idVisaType = idVisaType;
+        this.visaType = visaType;
     }
 
     public Integer getIdTypeDocument() {
@@ -76,13 +80,18 @@ public class DocumentType {
         this.estCommun = estCommun;
     }
 
-    public Integer getIdVisaType() {
-        return idVisaType;
+    public VisaType getVisaType() {
+        return visaType;
     }
 
-    public void setIdVisaType(Integer idVisaType) {
-        this.idVisaType = idVisaType;
+    public void setVisaType(VisaType visaType) {
+        this.visaType = visaType;
     }
+
+    public VisaType getIdVisaType() {
+        return visaType;
+    }
+ 
 
     public Integer getId() {
         return idTypeDocument;
