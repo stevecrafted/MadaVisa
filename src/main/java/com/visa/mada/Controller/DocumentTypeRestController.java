@@ -16,12 +16,12 @@ import com.visa.mada.Service.VisaTypeService;
 
 @RestController
 @RequestMapping("/api/DocumentType")
-public class DocumentTypRestController {
+public class DocumentTypeRestController {
 
     private final DocumentTypeService documentTypeSerice;
     private final VisaTypeService visaTypeService;
 
-    public DocumentTypRestController(DocumentTypeService documentTypeSerice, VisaTypeService visaTypeService) {
+    public DocumentTypeRestController(DocumentTypeService documentTypeSerice, VisaTypeService visaTypeService) {
         this.documentTypeSerice = documentTypeSerice;
         this.visaTypeService = visaTypeService;
     }

@@ -70,9 +70,9 @@ CREATE TABLE type_document (
 -- Documents fournis pour un visa
 CREATE TABLE visa_document (
     id SERIAL PRIMARY KEY,
-    visa_id INT NOT NULL,
+    visa_historique_type_id INT NOT NULL,
     type_document_id INT NOT NULL,
     date_depot DATE,
-    FOREIGN KEY (visa_id) REFERENCES visa(id),
+    FOREIGN KEY (visa_historique_type_id) REFERENCES visa_historique_type(id),
     FOREIGN KEY (type_document_id) REFERENCES type_document(id)
 );

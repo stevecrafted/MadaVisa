@@ -24,7 +24,7 @@ public class Visa {
     @Column(name = "id")
     private int id;
 
-    @Column(name = "creation_date")
+    @Column(name = "date_creation")
     @NotNull(message = "La date de creation est obligatoire")
     private LocalDate creationDate;
 
@@ -54,7 +54,7 @@ public class Visa {
     public Visa(int id, LocalDate creationDate, LocalDate exitDate, String reference, Personne personne,
             VisaType typeVisa) {
         this.id = id;
-        this.creationDate = creationDate;
+        // this.creationDate = creationDate;
         this.exitDate = exitDate;
         this.reference = reference;
         this.personne = personne;

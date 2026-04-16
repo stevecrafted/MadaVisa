@@ -22,9 +22,9 @@ public class VisaDocument {
     private int id;
 
     @ManyToOne(optional = false)
-    @JoinColumn(name = "visa_id", nullable = false)
+    @JoinColumn(name = "visa_historique_type_id", nullable = false)
     @NotNull(message = "Le visa est obligatoire")
-    private Visa visa;
+    private VisaHistory visa;
 
     @ManyToOne(optional = false)
     @JoinColumn(name = "type_document_id", nullable = false)
@@ -38,7 +38,7 @@ public class VisaDocument {
     public VisaDocument() {
     }
 
-    public VisaDocument(int id, Visa visa, DocumentType documentType, LocalDate dateDepot) {
+    public VisaDocument(int id, VisaHistory visa, DocumentType documentType, LocalDate dateDepot) {
         this.id = id;
         this.visa = visa;
         this.documentType = documentType;
@@ -53,11 +53,11 @@ public class VisaDocument {
         this.id = id;
     }
 
-    public Visa getVisa() {
+    public VisaHistory getVisa() {
         return visa;
     }
 
-    public void setVisa(Visa visa) {
+    public void setVisa(VisaHistory visa) {
         this.visa = visa;
     }
 
