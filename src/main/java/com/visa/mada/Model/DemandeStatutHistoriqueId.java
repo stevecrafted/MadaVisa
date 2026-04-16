@@ -2,10 +2,13 @@ package com.visa.mada.Model;
 
 import java.io.Serializable;
 import java.util.Objects;
+import jakarta.validation.constraints.NotNull;
 
 public class DemandeStatutHistoriqueId implements Serializable {
 
+    @NotNull
     private Integer idDemande;
+    @NotNull
     private Integer idStatutDemande;
 
     public DemandeStatutHistoriqueId() {

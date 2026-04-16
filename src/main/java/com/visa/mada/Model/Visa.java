@@ -6,6 +6,10 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.FutureOrPresent;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.PastOrPresent;
 
 @Entity
 @Table(name = "visa")
@@ -13,21 +17,29 @@ public class Visa {
 
     @Id
     @Column(name = "id_visa")
+    @NotNull
     private Integer idVisa;
 
     @Column(name = "livraison_date")
+    @NotNull
+    @PastOrPresent
     private LocalDate dateLivraison;
 
     @Column(name = "date_expiration")
+    @NotNull
+    @FutureOrPresent
     private LocalDate dateExpiration;
 
     @Column(name = "reference")
+    @NotBlank
     private String reference;
 
     @Column(name = "id_passport")
+    @NotNull
     private Integer idPasseport;
 
     @Column(name = "id_demande")
+    @NotNull
     private Integer idDemande;
 
     public Visa() {

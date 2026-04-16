@@ -8,14 +8,15 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping; 
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import com.visa.mada.Model.Personne;
+import com.visa.mada.DTO.DemandeWrapper; 
 import com.visa.mada.Model.VisaType;
-import com.visa.mada.Service.DocumentTypeService;
-import com.visa.mada.Service.PersonneService;
+import com.visa.mada.Service.DemandeService;
+import com.visa.mada.Service.DocumentTypeService; 
 import com.visa.mada.Service.VisaDocumentService;
 import com.visa.mada.Service.VisaService;
 import com.visa.mada.Service.VisaTypeService;
@@ -23,35 +24,36 @@ import com.visa.mada.Service.VisaTypeService;
 import jakarta.validation.Valid;
 
 @Controller
+@RequestMapping("/demande")
 public class DemandeController {
 
-    private final VisaService visaService;
-    private final PersonneService personneService;
+    private final VisaService visaService; 
     private final DocumentTypeService documentTypeService;
     private final VisaDocumentService visaDocumentService;
     private final VisaTypeService visaTypeService;
+    private final DemandeService demandeService;
 
-    public DemandeController(VisaService visaService, PersonneService personneService,
+    public DemandeController(VisaService visaService, 
             DocumentTypeService documentTypeService, VisaDocumentService visaDocumentService,
-            VisaTypeService visaTypeService) {
-        this.visaService = visaService;
-        this.personneService = personneService;
+            VisaTypeService visaTypeService, DemandeService demandeService) {
+        this.visaService = visaService; 
         this.documentTypeService = documentTypeService;
         this.visaDocumentService = visaDocumentService;
         this.visaTypeService = visaTypeService;
+        this.demandeService = demandeService;
     }
 
     @GetMapping()
     public String createDemandeForm(Model model) {
-        model.addAttribute("personne", new Personne());
-        return "demande/create";
+        model.addAttribute("wrapper", new DemandeWrapper());
+        return "visa/create";
     }
 
     @PostMapping()
-    public String createDemande(Model model, @Valid @ModelAttribute Personne personne, BindingResult result,
+    public String createDemande(Model model, @Valid @ModelAttribute DemandeWrapper demandeWrapper, BindingResult result,
             @RequestParam("visa_option") int visaOption,
             @RequestParam(value = "documentIds", required = false) List<Integer> documentIds,
-            RedirectAttributes redirectAttributes) {
+            RedirectAttributes redirectAttributes) throws Exception {
 
         if (result.hasErrors()) {
             System.out.println("Veuillez corriger les champs en erreur.");
@@ -72,7 +74,7 @@ public class DemandeController {
             return "visa/create";
         }
 
-        visaService.creerVisa(personne, visaTypeOptional.get(), documentIds);
+        demandeService.creationDemande(demandeWrapper, documentIds, visaOption); 
 
         return "visa/list";
     }

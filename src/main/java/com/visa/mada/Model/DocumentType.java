@@ -4,6 +4,8 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "type_document")
@@ -11,18 +13,23 @@ public class DocumentType {
 
     @Id
     @Column(name = "id_type_document")
+    @NotNull
     private Integer idTypeDocument;
 
     @Column(name = "nom_document")
+    @NotBlank
     private String nomDocument;
 
     @Column(name = "est_obligatoire")
+    @NotNull
     private Boolean estObligatoire;
 
     @Column(name = "est_commun")
+    @NotNull
     private Boolean estCommun;
 
     @Column(name = "id_visa_type")
+    @NotNull
     private Integer idVisaType;
 
     public DocumentType() {

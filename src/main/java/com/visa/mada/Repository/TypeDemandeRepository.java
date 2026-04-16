@@ -7,4 +7,5 @@ import com.visa.mada.Model.TypeDemande;
 
 @Repository
 public interface TypeDemandeRepository extends JpaRepository<TypeDemande, Integer> {
+    TypeDemande findByLibelle(String libelle);
 }

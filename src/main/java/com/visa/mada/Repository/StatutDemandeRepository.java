@@ -7,4 +7,5 @@ import com.visa.mada.Model.StatutDemande;
 
 @Repository
 public interface StatutDemandeRepository extends JpaRepository<StatutDemande, Integer> {
+    StatutDemande findByLibelle(String libelle);
 }

@@ -6,6 +6,10 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.PastOrPresent;
 
 @Entity
 @Table(name = "demandeur")
@@ -13,30 +17,41 @@ public class Demandeur {
 
     @Id
     @Column(name = "id_demandeur")
+    @NotNull
     private Integer idDemandeur;
 
     @Column(name = "nom")
+    @NotBlank
     private String nom;
 
     @Column(name = "prenom")
+    @NotBlank
     private String prenom;
 
     @Column(name = "datenaissance")
+    @NotNull
+    @PastOrPresent
     private LocalDate dateNaissance;
 
     @Column(name = "lieunaissance")
+    @NotBlank
     private String lieuNaissance;
 
     @Column(name = "adresse_mada")
+    @NotBlank
     private String adresseMada;
 
     @Column(name = "email")
+    @NotBlank
+    @Email
     private String email;
 
     @Column(name = "id_situation_familiale")
+    @NotNull
     private Integer idSituationFamiliale;
 
     @Column(name = "id_nationalite")
+    @NotNull
     private Integer idNationalite;
 
     public Demandeur() {

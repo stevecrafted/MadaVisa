@@ -7,7 +7,7 @@ import java.util.UUID;
 
 import org.springframework.stereotype.Service;
 
-import com.visa.mada.Model.Personne;
+import com.visa.mada.Model.Demandeur; 
 import com.visa.mada.Model.Visa;
 import com.visa.mada.Model.VisaType;
 import com.visa.mada.Repository.VisaRepository;
@@ -41,12 +41,12 @@ public class VisaService {
         visaRepository.deleteById(id);
     }
 
-    public Visa creerVisa(Personne personne, VisaType visaType, List<Integer> documentIds) {
+    public Visa creerVisa(Demandeur personne, VisaType visaType, List<Integer> documentIds) {
         Visa visa = new Visa();
         visa.setLivraisonDate(LocalDate.now());
         visa.setExitDate(LocalDate.now().plusDays(30));
         visa.setReference(generateReference());
-        visa.setIdDemande(visaType != null ? visaType.getIdDemande() : null);
+        // visa.setIdDemande(visaType != null ? visaType.getIdDemande() : null);
         return create(visa);
     }
 

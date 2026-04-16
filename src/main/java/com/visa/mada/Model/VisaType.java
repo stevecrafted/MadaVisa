@@ -4,6 +4,8 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "visa_type")
@@ -11,25 +13,24 @@ public class VisaType {
 
     @Id
     @Column(name = "id_visa_type")
+    @NotNull
     private Integer idVisaType;
 
     @Column(name = "libelle")
+    @NotBlank
     private String libelle;
 
     @Column(name = "est_a_choisir")
+    @NotNull
     private Boolean estAChoisir;
-
-    @Column(name = "id_demande")
-    private Integer idDemande;
 
     public VisaType() {
     }
 
-    public VisaType(Integer idVisaType, String libelle, Boolean estAChoisir, Integer idDemande) {
+    public VisaType(Integer idVisaType, String libelle, Boolean estAChoisir) {
         this.idVisaType = idVisaType;
         this.libelle = libelle;
         this.estAChoisir = estAChoisir;
-        this.idDemande = idDemande;
     }
 
     public Integer getIdVisaType() {
@@ -54,15 +55,7 @@ public class VisaType {
 
     public void setEstAChoisir(Boolean estAChoisir) {
         this.estAChoisir = estAChoisir;
-    }
-
-    public Integer getIdDemande() {
-        return idDemande;
-    }
-
-    public void setIdDemande(Integer idDemande) {
-        this.idDemande = idDemande;
-    }
+    } 
 
     public Integer getId() {
         return idVisaType;

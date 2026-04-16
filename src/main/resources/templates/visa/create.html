@@ -4,11 +4,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Create visa</title>
+    <title>Create demande</title>
 </head>
 
 <body>
-    <form action="#" th:action="@{/visa}" method="post" th:object="${personne}">
+    <form action="#" th:action="@{/demande}" method="post" th:object="${wrapper}">
         <div th:if="${errorMessage}" style="color: #b00020; margin-bottom: 10px;">
             <span th:text="${errorMessage}"></span>
         </div>
@@ -18,61 +18,110 @@
         </div>
 
         <ul>
+            <li><strong>Demandeur</strong></li>
             <li>
                 <label for="nom">Nom</label>
-                <input type="text" id="nom" th:field="*{name}">
-                <small th:if="${#fields.hasErrors('name')}" th:errors="*{name}" style="color: #b00020;"></small>
+                <input type="text" id="nom" th:field="*{demandeur.nom}">
+                <small th:if="${#fields.hasErrors('demandeur.nom')}" th:errors="*{demandeur.nom}"
+                    style="color: #b00020;"></small>
             </li>
             <li>
                 <label for="prenom">Prenom</label>
-                <input type="text" id="prenom" th:field="*{last_name}">
-                <small th:if="${#fields.hasErrors('last_name')}" th:errors="*{last_name}"
+                <input type="text" id="prenom" th:field="*{demandeur.prenom}">
+                <small th:if="${#fields.hasErrors('demandeur.prenom')}" th:errors="*{demandeur.prenom}"
                     style="color: #b00020;"></small>
             </li>
             <li>
                 <label for="date_naissance">Date de naissance</label>
-                <input type="date" id="date_naissance" th:field="*{birthdate}">
-                <small th:if="${#fields.hasErrors('birthdate')}" th:errors="*{birthdate}"
+                <input type="date" id="date_naissance" th:field="*{demandeur.dateNaissance}">
+                <small th:if="${#fields.hasErrors('demandeur.dateNaissance')}" th:errors="*{demandeur.dateNaissance}"
                     style="color: #b00020;"></small>
             </li>
             <li>
                 <label for="lieu_naissance">Lieu de naissance</label>
-                <input type="text" id="lieu_naissance" th:field="*{location_birth}">
-                <small th:if="${#fields.hasErrors('location_birth')}" th:errors="*{location_birth}"
+                <input type="number" id="lieu_naissance" th:field="*{demandeur.lieuNaissance}">
+                <small th:if="${#fields.hasErrors('demandeur.lieuNaissance')}" th:errors="*{demandeur.lieuNaissance}"
                     style="color: #b00020;"></small>
             </li>
             <li>
-                <label for="situation_familiale">Situation familiale</label>
-                <select id="situation_familiale" th:field="*{family_situation}">
-                    <option value="mariee">mariee</option>
-                    <option value="celibataire">celibataire</option>
+                <label for="id_situation_familiale">Id situation familiale</label>
+                <select name="id_situation_familiale" id="id_situation_familiale"
+                    th:field="*{demandeur.idSituationFamiliale}">
                 </select>
-                <small th:if="${#fields.hasErrors('family_situation')}" th:errors="*{family_situation}"
+                <small th:if="${#fields.hasErrors('demandeur.idSituationFamiliale')}"
+                    th:errors="*{demandeur.idSituationFamiliale}" style="color: #b00020;"></small>
+            </li>
+            <li>
+                <label for="adresse_mada">Adresse Madagascar</label>
+                <input type="text" id="adresse_mada" th:field="*{demandeur.adresseMada}">
+                <small th:if="${#fields.hasErrors('demandeur.adresseMada')}" th:errors="*{demandeur.adresseMada}"
                     style="color: #b00020;"></small>
             </li>
             <li>
-                <label for="ancienne_adresse">Ancienne adresse</label>
-                <input type="text" id="ancienne_adresse" th:field="*{old_address}">
-                <small th:if="${#fields.hasErrors('old_address')}" th:errors="*{old_address}"
+                <label for="id_nationalite">Id nationalite</label>
+                <select name="id_nationalite" id="id_nationalite" th:field="*{demandeur.idNationalite}">
+                </select>
+                <small th:if="${#fields.hasErrors('demandeur.idNationalite')}" th:errors="*{demandeur.idNationalite}"
                     style="color: #b00020;"></small>
             </li>
             <li>
-                <label for="adresse_actuelle">Adresse actuelle</label>
-                <input type="text" id="adresse_actuelle" th:field="*{actual_address}">
-                <small th:if="${#fields.hasErrors('actual_address')}" th:errors="*{actual_address}"
+                <label for="email">Email</label>
+                <input type="email" id="email" th:field="*{demandeur.email}">
+                <small th:if="${#fields.hasErrors('demandeur.email')}" th:errors="*{demandeur.email}"
                     style="color: #b00020;"></small>
             </li>
+
+            <li><strong>Passeport</strong></li>
             <li>
-                <label for="nationalite">Nationalite</label>
-                <input type="text" id="nationalite" th:field="*{nationalite}">
-                <small th:if="${#fields.hasErrors('nationalite')}" th:errors="*{nationalite}"
-                    style="color: #b00020;"></small>
+                <label for="id_passeport">Id passeport</label>
+                <input type="number" id="id_passeport" th:field="*{passport.idPasseport}">
             </li>
             <li>
-                <label for="profession">Profession</label>
-                <input type="text" id="profession" th:field="*{profession}">
-                <small th:if="${#fields.hasErrors('profession')}" th:errors="*{profession}"
-                    style="color: #b00020;"></small>
+                <label for="numero_passeport">Numero passeport</label>
+                <input type="text" id="numero_passeport" th:field="*{passport.numero}">
+            </li>
+            <li>
+                <label for="date_delivrance">Date delivrance passeport</label>
+                <input type="date" id="date_delivrance" th:field="*{passport.dateDelivrance}">
+            </li>
+            <li>
+                <label for="date_expiration_passport">Date expiration passeport</label>
+                <input type="date" id="date_expiration_passport" th:field="*{passport.dateExpiration}">
+            </li>
+            <li>
+                <label for="pays_delivrance">Pays delivrance</label>
+                <input type="text" id="pays_delivrance" th:field="*{passport.paysDelivrance}">
+            </li>
+            <li>
+                <label for="id_demandeur_passport">Id demandeur (passeport)</label>
+                <input type="number" id="id_demandeur_passport" th:field="*{passport.idDemandeur}">
+            </li>
+
+            <li><strong>Visa transformable</strong></li>
+            <li>
+                <label for="id_visa_transformable">Id visa transformable</label>
+                <input type="number" id="id_visa_transformable" th:field="*{visaTransformable.idVisaTransformable}">
+            </li>
+            <li>
+                <label for="numero_visa_transformable">Numero visa transformable</label>
+                <input type="text" id="numero_visa_transformable" th:field="*{visaTransformable.numero}">
+            </li>
+            <li>
+                <label for="date_livraison_visa_transformable">Date livraison visa transformable</label>
+                <input type="date" id="date_livraison_visa_transformable" th:field="*{visaTransformable.dateLivraison}">
+            </li>
+            <li>
+                <label for="date_expiration_visa_transformable">Date expiration visa transformable</label>
+                <input type="date" id="date_expiration_visa_transformable"
+                    th:field="*{visaTransformable.dateExpiration}">
+            </li>
+            <li>
+                <label for="id_passeport_visa_transformable">Id passeport (visa transformable)</label>
+                <input type="number" id="id_passeport_visa_transformable" th:field="*{visaTransformable.idPasseport}">
+            </li>
+            <li>
+                <label for="id_demandeur_visa_transformable">Id demandeur (visa transformable)</label>
+                <input type="number" id="id_demandeur_visa_transformable" th:field="*{visaTransformable.idDemandeur}">
             </li>
 
             <li>
@@ -99,64 +148,75 @@
     // Attendre le chargement du DOM
     document.addEventListener('DOMContentLoaded', function () {
         const VisaOption = document.getElementById('visa_option');
+        const idNationalite = document.getElementById('id_nationalite');
+        const situationFamiliale = document.getElementById('id_situation_familiale');
+
         const usefullDocuments = document.getElementById('use_full_documents');
 
-        madavisaApiTypeVisa();
-        madavisaApiDocumentType();
+        chargerOptionsSelect('/madavisa/api/typevisa', VisaOption, "libelle");
+        chargerOptionsSelect('/madavisa/api/situation_familiale', situationFamiliale, "nom");
+        chargerOptionsSelect('/madavisa/api/nationalite', idNationalite, "nom");
 
-        function madavisaApiTypeVisa() {
-            fetch(`/madavisa/api/typevisa`)
+        // Écouter le changement de la catégorie
+        VisaOption.addEventListener('change', function () {
+            const visaOption = VisaOption.value;
+
+            // Appel AJAX vers l'API REST
+            fetch(`/madavisa/api/DocumentType/${visaOption}`)
                 .then(response => response.json())
                 .then(data => {
-                    // Vider les options actuelles
-                    VisaOption.innerHTML = '';
+                    usefullDocuments.innerHTML = ''; // Vider le conteneur
 
-                    // Ajouter chaque type reçu
-                    data.forEach(visaType => {
-                        const option = document.createElement('option');
-                        option.value = visaType.id;
-                        option.text = visaType.libelle;
-                        VisaOption.appendChild(option);
-                    });
+                    data.forEach(doc => {
+
+                        const label = document.createElement('label');
+
+                        const checkBoxOption = document.createElement('input');
+                        checkBoxOption.type = 'checkbox';
+                        checkBoxOption.name = 'documentIds';
+                        checkBoxOption.value = doc.id;
+
+                        label.appendChild(checkBoxOption);
+                        label.appendChild(document.createTextNode(' ' + doc.documentName));
+
+                        usefullDocuments.appendChild(label);
+                        usefullDocuments.appendChild(document.createElement('br'));
+                    })
                 })
                 .catch(error => {
                     console.error('Erreur lors du chargement des types de visa:', error);
-                    usefullDocuments.innerHTML = '<option>Erreur de chargement</option>';
+                    usefullDocuments.innerHTML = '<h4>Erreur de chargement</h4>';
                 });
-        }
+        });
 
-        function madavisaApiDocumentType() {
-            // Écouter le changement de la catégorie
-            VisaOption.addEventListener('change', function () {
-                const visaOption = VisaOption.value;
-
-                // Appel AJAX vers l'API REST
-                fetch(`/madavisa/api/DocumentType/${visaOption}`)
-                    .then(response => response.json())
-                    .then(data => {
-                        usefullDocuments.innerHTML = ''; // Vider le conteneur
-
-                        data.forEach(doc => {
-
-                            const label = document.createElement('label');
-
-                            const checkBoxOption = document.createElement('input');
-                            checkBoxOption.type = 'checkbox';
-                            checkBoxOption.name = 'documentIds';
-                            checkBoxOption.value = doc.id;
-
-                            label.appendChild(checkBoxOption);
-                            label.appendChild(document.createTextNode(' ' + doc.documentName));
-
-                            usefullDocuments.appendChild(label);
-                            usefullDocuments.appendChild(document.createElement('br'));
-                        })
-                    })
-                    .catch(error => {
-                        console.error('Erreur lors du chargement des types de visa:', error);
-                        usefullDocuments.innerHTML = '<h4>Erreur de chargement</h4>';
-                    });
-            });
-        }
     });
+
+    function chargerOptionsSelect(url, selectElement, type) {
+        fetch(url)
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error(`HTTP ${response.status}`);
+                }
+                return response.json();
+            })
+            .then(data => {
+                // Vider les options existantes
+                selectElement.innerHTML = '';
+                // Ajouter chaque option
+                data.forEach(item => {
+                    const option = document.createElement('option');
+                    option.value = item.id;
+                    if (type == "nom") {
+                        option.textContent = item.nom;
+                    } else {
+                        option.textContent = item.libelle;
+                    }
+                    selectElement.appendChild(option);
+                });
+            })
+            .catch(error => {
+                console.error('Erreur lors du chargement des types:', error);
+                selectElement.innerHTML = '<option>Erreur de chargement</option>';
+            });
+    }
 </script>

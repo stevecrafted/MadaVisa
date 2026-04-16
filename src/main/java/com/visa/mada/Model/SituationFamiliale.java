@@ -4,6 +4,8 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "situation_familiale")
@@ -11,9 +13,11 @@ public class SituationFamiliale {
 
     @Id
     @Column(name = "id_situation_familiale")
+    @NotNull
     private Integer idSituationFamiliale;
 
     @Column(name = "nom")
+    @NotBlank
     private String nom;
 
     public SituationFamiliale() {
