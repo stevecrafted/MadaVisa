@@ -26,7 +26,7 @@ public class DocumentTypeService {
     }
 
     public List<DocumentType> getAllTypesDocumentByVisaTypeId(int visaTypeId) {
-        return documentTypeRepository.findByVisaTypeId(visaTypeId);
+        return documentTypeRepository.findByIsCommunTrueAndVisaTypeId(visaTypeId);
     }
 
     public Optional<DocumentType> getTypeDocumentById(int id) {

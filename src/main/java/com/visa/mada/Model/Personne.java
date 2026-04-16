@@ -2,6 +2,10 @@ package com.visa.mada.Model;
 
 import java.time.LocalDate;
 
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Past;
+import jakarta.validation.constraints.Size;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -19,30 +23,47 @@ public class Personne {
     private int id;
 
     @Column(name = "nom")
+    @NotBlank(message = "Le nom est obligatoire")
+    @Size(max = 250, message = "Le nom ne peut pas depasser 250 caracteres")
     private String name;
 
     @Column(name = "prenom")
+    @NotBlank(message = "Le prenom est obligatoire")
+    @Size(max = 250, message = "Le prenom ne peut pas depasser 250 caracteres")
     private String last_name;
 
     @Column(name = "date_naissance")
+    @NotNull(message = "La date de naissance est obligatoire")
+    @Past(message = "La date de naissance doit etre dans le passe")
     private LocalDate birthdate;
 
     @Column(name = "lieu_naissance")
+    @NotBlank(message = "Le lieu de naissance est obligatoire")
+    @Size(max = 250, message = "Le lieu de naissance ne peut pas depasser 250 caracteres")
     private String location_birth;
 
     @Column(name = "situation_familiale")
+    @NotBlank(message = "La situation familiale est obligatoire")
+    @Size(max = 50, message = "La situation familiale ne peut pas depasser 50 caracteres")
     private String family_situation;
 
     @Column(name = "ancienne_adresse")
+    @Size(max = 250, message = "L'ancienne adresse ne peut pas depasser 250 caracteres")
     private String old_address;
 
     @Column(name = "adresse_actuelle")
+    @NotBlank(message = "L'adresse actuelle est obligatoire")
+    @Size(max = 250, message = "L'adresse actuelle ne peut pas depasser 250 caracteres")
     private String actual_address;
 
     @Column(name = "nationalite")
+    @NotBlank(message = "La nationalite est obligatoire")
+    @Size(max = 50, message = "La nationalite ne peut pas depasser 50 caracteres")
     private String nationalite;
 
     @Column(name = "profession")
+    @NotBlank(message = "La profession est obligatoire")
+    @Size(max = 50, message = "La profession ne peut pas depasser 50 caracteres")
     private String profession;
 
     public Personne() {

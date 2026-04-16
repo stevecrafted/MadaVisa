@@ -11,6 +11,9 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 
 @Entity
 @Table(name = "type_visa")
@@ -22,9 +25,12 @@ public class VisaType {
     private int id;
 
     @Column(name = "libelle", nullable = false, length = 50)
+    @NotBlank(message = "Le libelle du type de visa est obligatoire")
+    @Size(max = 50, message = "Le libelle ne peut pas depasser 50 caracteres")
     private String libelle;
 
     @Column(name = "est_transformable")
+    @NotNull(message = "Le champ est_transformable est obligatoire")
     private Boolean estTransformable;
 
     @OneToMany(mappedBy = "visaType")

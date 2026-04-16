@@ -10,6 +10,10 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.Future;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 
 @Entity
 @Table(name = "passeport")
@@ -21,16 +25,22 @@ public class Passport {
     private int id;
 
     @Column(name = "numero", nullable = false, length = 50)
+    @NotBlank(message = "Le numero de passeport est obligatoire")
+    @Size(max = 50, message = "Le numero de passeport ne peut pas depasser 50 caracteres")
     private String numero;
 
     @Column(name = "date_creation")
+    @NotNull(message = "La date de creation du passeport est obligatoire")
     private LocalDate creationDate;
 
     @Column(name = "date_expiration")
+    @NotNull(message = "La date d'expiration du passeport est obligatoire")
+    @Future(message = "La date d'expiration du passeport doit etre dans le futur")
     private LocalDate expirationDate;
 
     @ManyToOne(optional = false)
     @JoinColumn(name = "personne_id", nullable = false)
+    @NotNull(message = "La personne est obligatoire")
     private Personne personne;
 
     public Passport() {

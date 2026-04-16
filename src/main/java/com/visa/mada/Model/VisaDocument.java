@@ -10,6 +10,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "visa_document")
@@ -22,13 +23,16 @@ public class VisaDocument {
 
     @ManyToOne(optional = false)
     @JoinColumn(name = "visa_id", nullable = false)
+    @NotNull(message = "Le visa est obligatoire")
     private Visa visa;
 
     @ManyToOne(optional = false)
     @JoinColumn(name = "type_document_id", nullable = false)
+    @NotNull(message = "Le type de document est obligatoire")
     private DocumentType documentType;
 
     @Column(name = "date_depot")
+    @NotNull(message = "La date de depot est obligatoire")
     private LocalDate dateDepot;
 
     public VisaDocument() {

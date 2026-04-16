@@ -10,6 +10,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "visa_historique_type")
@@ -22,6 +23,7 @@ public class VisaHistory {
 
     @ManyToOne(optional = false)
     @JoinColumn(name = "visa_id", nullable = false)
+    @NotNull(message = "Le visa est obligatoire")
     private Visa visa;
 
     @ManyToOne
@@ -30,9 +32,11 @@ public class VisaHistory {
 
     @ManyToOne(optional = false)
     @JoinColumn(name = "nouveau_type_id", nullable = false)
+    @NotNull(message = "Le nouveau type de visa est obligatoire")
     private VisaType newType;
 
     @Column(name = "date_changement", nullable = false)
+    @NotNull(message = "La date de changement est obligatoire")
     private LocalDate changeDate;
 
     public VisaHistory() {

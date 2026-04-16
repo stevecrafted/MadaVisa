@@ -11,4 +11,6 @@ import com.visa.mada.Model.DocumentType;
 @Repository
 public interface DocumentTypeRepository extends JpaRepository<DocumentType, Integer> {
 	List<DocumentType> findByVisaTypeId(int visaTypeId);
+
+    List<DocumentType> findByIsCommunTrueAndVisaTypeId(int visaTypeId);
 }

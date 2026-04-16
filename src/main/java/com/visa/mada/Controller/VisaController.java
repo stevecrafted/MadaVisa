@@ -40,7 +40,9 @@ public class VisaController {
 
     @PostMapping()
     public String createVisa(Model model, @ModelAttribute Personne personne, RedirectAttributes redirectAttributes) {
+        
         personneService.creerPersonne(personne);
+
         redirectAttributes.addFlashAttribute("errorMessage", "Veuillez selectionnez le type de transformation de votre visa");
         return "visa/list";
     }
