@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Visa list</title>
+</head>
+
+<body>
+    <div th:fragment="messagesFlash">
+        <div th:if="${successMessage}" th:text="${successMessage}" class="alert alert-success"></div>
+        <div th:if="${errorMessage}" th:text="${errorMessage}" class="alert alert-danger"></div>
+        <div th:if="${warningMessage}" th:text="${warningMessage}" class="alert alert-warning"></div>
+        <div th:if="${infoMessage}" th:text="${infoMessage}" class="alert alert-info"></div>
+    </div>
+
+    <h1>Visa cree avec succes</h1>
+    <p><a th:href="@{/visa}">Retour au formulaire</a></p>
+</body>
+
+</html>
