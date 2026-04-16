@@ -16,20 +16,20 @@ import com.visa.mada.Service.VisaTypeService;
 
 @RestController
 @RequestMapping("/api/DocumentType")
-public class DocumentTypeServiceRest {
+public class DocumentTypRestController {
 
     private final DocumentTypeService documentTypeSerice;
     private final VisaTypeService visaTypeService;
 
-    public DocumentTypeServiceRest(DocumentTypeService documentTypeSerice, VisaTypeService visaTypeService) {
+    public DocumentTypRestController(DocumentTypeService documentTypeSerice, VisaTypeService visaTypeService) {
         this.documentTypeSerice = documentTypeSerice;
         this.visaTypeService = visaTypeService;
     }
 
     @GetMapping("/{stringType}")
-    public ResponseEntity<List<DocumentType>> getListDocumentType(@PathVariable String stringType) {
+    public ResponseEntity<List<DocumentType>> getListDocumentType(@PathVariable int stringType) {
 
-        Optional<VisaType> optionalVisaType = visaTypeService.getTypeVisaByLibelle(stringType);
+        Optional<VisaType> optionalVisaType = visaTypeService.getTypeVisaById(stringType);
         if (optionalVisaType.isEmpty()) {
             return ResponseEntity.notFound().build();
         }

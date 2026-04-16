@@ -52,17 +52,14 @@
 
             <li>
                 <label for="visa_option">Visa type</label>
-                <select name="visa_option" id="visa_option">
-                    <option value="Travailleur">Travailleur</option>
-                    <option value="Investisseur">Investisseur</option>
+                <select name="visa_option" id="visa_option"> 
                 </select>
             </li>
 
             <li>
                 <label for="useful_doc">document a fournir</label>
-
-                
-
+                <select name="useful_doc" id="use_full_documents">
+                </select>
             </li>
 
             <li>
@@ -73,3 +70,60 @@
 </body>
 
 </html>
+
+<script>
+    // Attendre le chargement du DOM
+    document.addEventListener('DOMContentLoaded', function () {
+        const VisaOption = document.getElementById('visa_option');
+        const usefullDocuments = document.getElementById('use_full_documents');
+
+        fetch(`/madavisa/api/typevisa`)
+            .then(response => response.json())
+            .then(data => {
+                // Vider les options actuelles
+                VisaOption.innerHTML = ''; 
+
+                // Ajouter chaque type reçu
+                data.forEach(visaType => {
+                    const option = document.createElement('option');
+                    option.value = visaType.id;
+                    option.text = visaType.libelle;
+                    VisaOption.appendChild(option);
+                });
+            })
+            .catch(error => {
+                console.error('Erreur lors du chargement des types de visa:', error);
+                usefullDocuments.innerHTML = '<option>Erreur de chargement</option>';
+            });
+
+        // Écouter le changement de la catégorie
+        VisaOption.addEventListener('change', function () {
+            const visaOption = VisaOption.value;
+
+            // Appel AJAX vers l'API REST
+            fetch(`/madavisa/api/DocumentType/${visaOption}`)
+                .then(response => response.json())
+                .then(data => {
+                    // Vider les options actuelles
+                    usefullDocuments.innerHTML = '';
+                    // Ajouter une option par défaut
+                    const defaultOption = document.createElement('option');
+                    defaultOption.text = '-- Sélectionnez un type --';
+                    defaultOption.value = '';
+                    usefullDocuments.appendChild(defaultOption);
+
+                    // Ajouter chaque type reçu
+                    data.forEach(visaType => {
+                        const option = document.createElement('option');
+                        option.value = visaType.id;
+                        option.text = visaType.documentName;
+                        usefullDocuments.appendChild(option);
+                    });
+                })
+                .catch(error => {
+                    console.error('Erreur lors du chargement des types de visa:', error);
+                    usefullDocuments.innerHTML = '<option>Erreur de chargement</option>';
+                });
+        });
+    });
+</script>

@@ -39,22 +39,9 @@ public class VisaController {
     }
 
     @PostMapping()
-    public String createVisa(Model model, @ModelAttribute Personne personne,
-            @RequestParam(value = "visa_option", required = true) String visa_option,
-            RedirectAttributes redirectAttributes) {
-        
+    public String createVisa(Model model, @ModelAttribute Personne personne, RedirectAttributes redirectAttributes) {
         personneService.creerPersonne(personne);
-
-        if (visa_option == "travailleur") {
-            redirectAttributes.addFlashAttribute("successMessage", "travailleur");
-            return "visa/travailleur_form";
-        } else if (visa_option == "investisseur") {
-            redirectAttributes.addFlashAttribute("successMessage", "investisseur");
-            return "visa/investisseur_form";
-        }
-
-        redirectAttributes.addFlashAttribute("errorMessage",
-                "Veuillez selectionnez le type de transformation de votre visa");
+        redirectAttributes.addFlashAttribute("errorMessage", "Veuillez selectionnez le type de transformation de votre visa");
         return "visa/list";
     }
 
