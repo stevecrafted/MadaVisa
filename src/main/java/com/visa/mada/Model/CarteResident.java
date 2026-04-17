@@ -16,13 +16,13 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.PastOrPresent;
 
 @Entity
-@Table(name = "visa")
-public class Visa {
+@Table(name = "carte_resident")
+public class CarteResident {
 
     @Id
-    @Column(name = "id_visa")
-    @GeneratedValue(strategy = GenerationType.IDENTITY) 
-    private Integer idVisa;
+    @Column(name = "id_carte_resident")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer idCarteResident;
 
     @Column(name = "livraison_date")
     @NotNull
@@ -46,12 +46,12 @@ public class Visa {
     @JoinColumn(name = "id_demande")
     private Demande demande;
 
-    public Visa() {
+    public CarteResident() {
     }
 
-    public Visa(Integer idVisa, LocalDate dateLivraison, LocalDate dateExpiration, String reference,
+    public CarteResident(Integer idCarteResident, LocalDate dateLivraison, LocalDate dateExpiration, String reference,
             Passport passport, Demande demande) {
-        this.idVisa = idVisa;
+        this.idCarteResident = idCarteResident;
         this.dateLivraison = dateLivraison;
         this.dateExpiration = dateExpiration;
         this.reference = reference;
@@ -59,12 +59,16 @@ public class Visa {
         this.demande = demande;
     }
 
-    public Integer getIdVisa() {
-        return idVisa;
+    public Passport getPassport() {
+        return passport;
     }
 
-    public void setIdVisa(Integer idVisa) {
-        this.idVisa = idVisa;
+    public void setPassport(Passport passport) {
+        this.passport = passport;
+    }
+
+    public void setIdCarteResident(Integer idCarteResident) {
+        this.idCarteResident = idCarteResident;
     }
 
     public LocalDate getDateLivraison() {
@@ -91,36 +95,20 @@ public class Visa {
         this.reference = reference;
     }
 
-    public Integer getIdPasseport() {
-        return passport != null ? passport.getIdPasseport() : null;
+    public Passport getPasseport() {
+        return this.passport;
     }
 
-    public void setIdPasseport(Integer idPasseport) {
-        // This is handled by passport relationship
-    }
-
-    public Passport getPassport() {
-        return passport;
-    }
-
-    public void setPassport(Passport passport) {
-        this.passport = passport;
-    }
-
-    public Integer getIdDemande() {
-        return demande != null ? demande.getIdDemande() : null;
-    }
-
-    public void setIdDemande(Integer idDemande) {
-        // This is handled by demande relationship
+    public void setPasseport(Passport Passeport) {
+        this.passport = Passeport;
     }
 
     public Demande getDemande() {
-        return demande;
+        return this.demande;
     }
 
-    public void setDemande(Demande demande) {
-        this.demande = demande;
+    public void setDemande(Demande Demande) {
+        this.demande = Demande;
     }
 
     public LocalDate getLivraisonDate() {
@@ -138,12 +126,5 @@ public class Visa {
     public void setExitDate(LocalDate exitDate) {
         setDateExpiration(exitDate);
     }
-
-    public Integer getIdPassport() {
-        return getIdPasseport();
-    }
-
-    public void setIdPassport(Integer idPassport) {
-        setIdPasseport(idPassport);
-    }
+ 
 }

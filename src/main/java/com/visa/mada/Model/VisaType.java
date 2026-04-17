@@ -1,57 +1,46 @@
 package com.visa.mada.Model;
 
-import java.util.List;
-
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Size;
 
 @Entity
-@Table(name = "type_visa")
+@Table(name = "visa_type")
 public class VisaType {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
-    private int id;
+    @Column(name = "id_visa_type")
+    @GeneratedValue(strategy = GenerationType.IDENTITY) 
+    private Integer idVisaType;
 
-    @Column(name = "libelle", nullable = false, length = 50)
-    @NotBlank(message = "Le libelle du type de visa est obligatoire")
-    @Size(max = 50, message = "Le libelle ne peut pas depasser 50 caracteres")
+    @Column(name = "libelle")
+    @NotBlank
     private String libelle;
 
-    @Column(name = "est_transformable")
-    @NotNull(message = "Le champ est_transformable est obligatoire")
-    private Boolean estTransformable;
-
-    @OneToMany(mappedBy = "visaType")
-    @JsonIgnore
-    private List<DocumentType> documentTypes;
+    @Column(name = "est_a_choisir")
+    @NotNull
+    private Boolean estAChoisir;
 
     public VisaType() {
     }
 
-    public VisaType(int id, String libelle, Boolean estTransformable) {
-        this.id = id;
+    public VisaType(Integer idVisaType, String libelle, Boolean estAChoisir) {
+        this.idVisaType = idVisaType;
         this.libelle = libelle;
-        this.estTransformable = estTransformable;
+        this.estAChoisir = estAChoisir;
     }
 
-    public int getId() {
-        return id;
+    public Integer getIdVisaType() {
+        return idVisaType;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setIdVisaType(Integer idVisaType) {
+        this.idVisaType = idVisaType;
     }
 
     public String getLibelle() {
@@ -62,19 +51,23 @@ public class VisaType {
         this.libelle = libelle;
     }
 
-    public Boolean getEstTransformable() {
-        return estTransformable;
+    public Boolean getEstAChoisir() {
+        return estAChoisir;
     }
 
-    public void setEstTransformable(Boolean estTransformable) {
-        this.estTransformable = estTransformable;
+    public void setEstAChoisir(Boolean estAChoisir) {
+        this.estAChoisir = estAChoisir;
+    } 
+
+    public Integer getId() {
+        return idVisaType;
     }
 
-    public List<DocumentType> getDocumentTypes() {
-        return documentTypes;
+    public Boolean getIsToChoose() {
+        return getEstAChoisir();
     }
 
-    public void setDocumentTypes(List<DocumentType> documentTypes) {
-        this.documentTypes = documentTypes;
+    public void setIsToChoose(Boolean isToChoose) {
+        setEstAChoisir(isToChoose);
     }
 }

@@ -13,10 +13,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import com.visa.mada.Model.Personne;
+import com.visa.mada.DTO.DemandeWrapper;
+import com.visa.mada.Model.Demande;
 import com.visa.mada.Model.VisaType;
+import com.visa.mada.Service.DemandeService;
 import com.visa.mada.Service.DocumentTypeService;
-import com.visa.mada.Service.PersonneService;
 import com.visa.mada.Service.VisaDocumentService;
 import com.visa.mada.Service.VisaService;
 import com.visa.mada.Service.VisaTypeService;
@@ -24,46 +25,48 @@ import com.visa.mada.Service.VisaTypeService;
 import jakarta.validation.Valid;
 
 @Controller
-@RequestMapping("/visa")
-public class VisaController {
+@RequestMapping("/demande")
+public class DemandeController {
 
     private final VisaService visaService;
-    private final PersonneService personneService;
     private final DocumentTypeService documentTypeService;
     private final VisaDocumentService visaDocumentService;
     private final VisaTypeService visaTypeService;
+    private final DemandeService demandeService;
 
-    public VisaController(VisaService visaService, PersonneService personneService,
+    public DemandeController(VisaService visaService,
             DocumentTypeService documentTypeService, VisaDocumentService visaDocumentService,
-            VisaTypeService visaTypeService) {
+            VisaTypeService visaTypeService, DemandeService demandeService) {
         this.visaService = visaService;
-        this.personneService = personneService;
         this.documentTypeService = documentTypeService;
         this.visaDocumentService = visaDocumentService;
         this.visaTypeService = visaTypeService;
+        this.demandeService = demandeService;
     }
 
     @GetMapping()
-    public String createVisaForm(Model model) {
-        model.addAttribute("personne", new Personne());
+    public String createDemandeForm(Model model) {
+        model.addAttribute("wrapper", new DemandeWrapper());
         return "visa/create";
     }
 
     @PostMapping()
-    public String createVisa(Model model, @Valid @ModelAttribute Personne personne, BindingResult result,
+    public String createDemande(Model model, @Valid @ModelAttribute DemandeWrapper demandeWrapper, BindingResult result,
             @RequestParam("visa_option") int visaOption,
             @RequestParam(value = "documentIds", required = false) List<Integer> documentIds,
-            RedirectAttributes redirectAttributes) {
+            RedirectAttributes redirectAttributes) throws Exception {
 
         if (result.hasErrors()) {
             System.out.println("Veuillez corriger les champs en erreur.");
             model.addAttribute("errorMessage", "Veuillez corriger les champs en erreur.");
+            model.addAttribute("wrapper", demandeWrapper);
             return "visa/create";
         }
 
         if (documentIds == null || documentIds.isEmpty()) {
             System.out.println("Les documents sont necessaires pour votre passeport");
             model.addAttribute("errorMessage", "Les documents sont necessaires pour votre passeport");
+            model.addAttribute("wrapper", demandeWrapper);
             return "visa/create";
         }
 
@@ -71,11 +74,21 @@ public class VisaController {
         if (visaTypeOptional.isEmpty()) {
             System.out.println("Type de visa introuvable");
             model.addAttribute("errorMessage", "Type de visa introuvable");
+            model.addAttribute("wrapper", demandeWrapper);
             return "visa/create";
         }
 
-        visaService.creerVisa(personne, visaTypeOptional.get(), documentIds);
+        Demande demande = new Demande();
 
+        try {
+            demande = demandeService.creationDemande(demandeWrapper, documentIds, visaOption);
+        } catch (Exception e) {
+            model.addAttribute("wrapper", demandeWrapper);
+            model.addAttribute("errorMessage", e);
+            return "visa/create";
+        }
+
+        model.addAttribute("demande", demande);
         return "visa/list";
     }
 

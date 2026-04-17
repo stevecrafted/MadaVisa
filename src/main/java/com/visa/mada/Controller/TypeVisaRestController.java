@@ -8,8 +8,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.visa.mada.Model.VisaType;
 import com.visa.mada.Service.VisaTypeService;
 
-import java.util.List;
-import java.util.Optional;
+import java.util.List; 
 
 @RestController
 @RequestMapping("/api/typevisa")

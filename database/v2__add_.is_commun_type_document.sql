@@ -1,48 +1,76 @@
-ALTER TABLE type_document ADD COLUMN IF NOT EXISTS is_commun BOOLEAN NOT NULL DEFAULT false;
-ALTER TABLE type_document DROP CONSTRAINT type_document_nom_document_key;
 
 -- Insertion des types de visa (s'ils n'existent pas)
-INSERT INTO type_visa (libelle, est_transformable) VALUES
+INSERT INTO visa_type ( libelle, est_a_choisir) VALUES
 ('Investisseur', true),
-('Travailleur', true)
-ON CONFLICT (libelle) DO NOTHING;
+('Travailleur', true);
 
--- Recuperation des IDs
-DO $$
-DECLARE
-    invest_id INT;
-    travail_id INT;
-BEGIN
-    SELECT id INTO invest_id FROM type_visa WHERE libelle = 'Investisseur';
-    SELECT id INTO travail_id FROM type_visa WHERE libelle = 'Travailleur';
+-- Pour Investisseur (id_visa_type = 1)
+INSERT INTO type_document (nom_document, est_obligatoire, est_commun, id_visa_type) VALUES
+('02 photos d identite', true, true, 1),
+('Notice de renseignement', true, true, 1),
+('Demande adressee à Mr le Ministère de l Interieur et de la Decentralisation avec adresse e-mail et numero telephone portable', true, true, 1),
+('Photocopie certifiee du visa en cours de validite', true, true, 1),
+('Photocopie certifiee de la première page du passeport', true, true, 1),
+('Photocopie certifiee de la carte resident en cours de validite', true, true, 1),
+('Certificat de residence à Madagascar', true, true, 1),
+('Extrait de casier judiciaire moins de 3 mois', true, true, 1);
 
-    -- Pieces communes (à inserer pour chaque type de visa)
-    INSERT INTO type_document (nom_document, idvisatype, is_commun) VALUES
-    ('02 photos d identite', invest_id, true),
-    ('02 photos d identite', travail_id, true),
-    ('Notice de renseignement', invest_id, true),
-    ('Notice de renseignement', travail_id, true),
-    ('Demande adressee à Mr le Ministere de l Interieur et de la Decentralisation avec adresse e-mail et numero telephone portable', invest_id, true),
-    ('Demande adressee à Mr le Ministere de l Interieur et de la Decentralisation avec adresse e-mail et numero telephone portable', travail_id, true),
-    ('Photocopie certifiee du visa en cours de validite', invest_id, true),
-    ('Photocopie certifiee du visa en cours de validite', travail_id, true),
-    ('Photocopie certifiee de la premiere page du passeport', invest_id, true),
-    ('Photocopie certifiee de la premiere page du passeport', travail_id, true),
-    ('Photocopie certifiee de la carte resident en cours de validite', invest_id, true),
-    ('Photocopie certifiee de la carte resident en cours de validite', travail_id, true),
-    ('Certificat de residence à Madagascar', invest_id, true),
-    ('Certificat de residence à Madagascar', travail_id, true),
-    ('Extrait de casier judiciaire moins de 3 mois', invest_id, true),
-    ('Extrait de casier judiciaire moins de 3 mois', travail_id, true);
+-- Pour Travailleur (id_visa_type = 2)
+INSERT INTO type_document (nom_document, est_obligatoire, est_commun, id_visa_type) VALUES
+( '02 photos d identite', true, true, 2),
+('Notice de renseignement', true, true, 2),
+('Demande adressee à Mr le Ministère de l Interieur et de la Decentralisation avec adresse e-mail et numero telephone portable', true, true, 2),
+('Photocopie certifiee du visa en cours de validite', true, true, 2),
+('Photocopie certifiee de la première page du passeport', true, true, 2),
+('Photocopie certifiee de la carte resident en cours de validite', true, true, 2),
+( 'Certificat de residence à Madagascar', true, true, 2),
+( 'Extrait de casier judiciaire moins de 3 mois', true, true, 2);
 
-    -- Pieces specifiques Investisseur
-    INSERT INTO type_document (nom_document, idvisatype, is_commun) VALUES
-    ('Statut de la Societe', invest_id, false),
-    ('Extrait d inscription au registre de commerce', invest_id, false),
-    ('Carte fiscale', invest_id, false);
+-- Investisseur (id_visa_type = 1)
+INSERT INTO type_document (nom_document, est_obligatoire, est_commun, id_visa_type) VALUES
+( 'Statut de la Societe', true, false, 1),
+('Extrait d inscription au registre de commerce', true, false, 1),
+( 'Carte fiscale', true, false, 1);
 
-    -- Pieces specifiques Travailleur
-    INSERT INTO type_document (nom_document, idvisatype, is_commun) VALUES
-    ('Autorisation emploi delivree à Madagascar par le Ministere de la Fonction publique', travail_id, false),
-    ('Attestation d emploi delivre par l employeur (Original)', travail_id, false);
-END $$;
+-- Travailleur (id_visa_type = 2)
+INSERT INTO type_document (nom_document, est_obligatoire, est_commun, id_visa_type) VALUES
+('Autorisation emploi delivree à Madagascar par le Ministère de la Fonction publique', true, false, 2),
+( 'Attestation d emploi delivre par l employeur (Original)', true, false, 2);
+
+INSERT INTO statut_demande (libelle) VALUES
+( 'En attente'), 
+( 'Approuvée'),
+( 'Rejetée'),
+( 'Expirée');
+
+INSERT INTO type_demande ( libelle) VALUES
+( 'Nouveau titre'),
+( 'Duplicata'),
+( 'Transfert de visa');
+
+INSERT INTO nationalite ( nom) VALUES
+( 'Malgache'),
+( 'Française'),
+( 'Chinoise'),
+( 'Indienne'),
+( 'Américaine'),
+( 'Britannique'),
+( 'Allemande'),
+( 'Italienne'),
+( 'Espagnole'),
+('Canadienne'),
+( 'Belge'),
+( 'Suisse'),
+( 'Sénégalaise'),
+('Ivoirienne'),
+( 'Camerounaise'),
+( 'Marocaine'),
+( 'Tunisienne'),
+( 'Algérienne'),
+( 'Mauricienne'),
+( 'Réunionnaise');
+
+INSERT INTO situation_familiale ( nom) VALUES
+( 'Celibataire'),
+( 'Marie(e)'),
+( 'Divorce(e)');
