@@ -10,6 +10,7 @@ import com.visa.mada.Model.VisaType;
 
 @Repository
 public interface DocumentTypeRepository extends JpaRepository<DocumentType, Integer> {
-    List<DocumentType> findByEstObligatoireTrueAndIdVisaType(int idVisaType);
+    List<DocumentType> findByEstObligatoireTrueAndVisaTypeIdVisaType(int idVisaType);
     List<DocumentType> findByVisaType(VisaType visaType);
+    List<DocumentType> findByVisaTypeIdVisaType(int idVisaType);
 }

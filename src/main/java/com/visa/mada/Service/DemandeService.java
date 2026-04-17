@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.visa.mada.DTO.DemandeWrapper;
 import com.visa.mada.Model.Demande;
@@ -12,7 +13,6 @@ import com.visa.mada.Model.DemandeStatutHistorique;
 import com.visa.mada.Model.Demandeur;
 import com.visa.mada.Model.DocumentType;
 import com.visa.mada.Model.Passport;
-import com.visa.mada.Model.StatutDemande;
 import com.visa.mada.Model.VisaDocument;
 import com.visa.mada.Model.VisaTransformable;
 import com.visa.mada.Repository.DemandeRepository;
@@ -24,8 +24,7 @@ import com.visa.mada.Repository.StatutDemandeRepository;
 import com.visa.mada.Repository.TypeDemandeRepository;
 import com.visa.mada.Repository.VisaDocumentRepository;
 import com.visa.mada.Repository.VisaTransformableRepository;
-
-import jakarta.transaction.Transactional;
+import com.visa.mada.Repository.VisaTypeRepository;
 
 @Service
 public class DemandeService {
@@ -39,6 +38,7 @@ public class DemandeService {
     private final StatutDemandeRepository statutDemandeRepository;
     private final DemandeStatutHistoriqueRepository demandeStatutHistoriqueRepository;
     private final TypeDemandeRepository typeDemandeRepository;
+    private final VisaTypeRepository visaTypeRepository;
 
     public DemandeService(PassportRepository passportRepository,
             VisaTransformableRepository visaTransformableRepository,
@@ -46,7 +46,7 @@ public class DemandeService {
             VisaDocumentRepository visaDocumentRepository, DemandeurRepository demandeurRepository,
             StatutDemandeRepository statutDemandeRepository,
             DemandeStatutHistoriqueRepository demandeStatutHistoriqueRepository,
-            TypeDemandeRepository typeDemandeRepository) {
+            TypeDemandeRepository typeDemandeRepository, VisaTypeRepository visaTypeRepository) {
         this.demandeRepository = demandeRepository;
         this.documentTypeRepository = documentTypeRepository;
         this.visaDocumentRepository = visaDocumentRepository;
@@ -56,6 +56,7 @@ public class DemandeService {
         this.statutDemandeRepository = statutDemandeRepository;
         this.demandeStatutHistoriqueRepository = demandeStatutHistoriqueRepository;
         this.typeDemandeRepository = typeDemandeRepository;
+        this.visaTypeRepository = visaTypeRepository;
     }
 
     // Creation demande :
@@ -76,7 +77,7 @@ public class DemandeService {
     // - Passeport
     // - List Documents
 
-    @Transactional
+    @Transactional()
     public Demande creationDemande(DemandeWrapper demandeWrapper, List<Integer> documentIds, int visaOption)
             throws Exception {
 
@@ -84,37 +85,46 @@ public class DemandeService {
         VisaTransformable visaTransformable = demandeWrapper.getVisaTransformable();
         Passport passport = demandeWrapper.getPassport();
 
-        passport = passportRepository.save(passport);
         demandeur = demandeurRepository.save(demandeur);
 
+        passport.setDemandeur(demandeur);
+        passport = passportRepository.save(passport);
+
         // VISATRANSFO
-        visaTransformable.setIdDemandeur(demandeur.getIdDemandeur());
-        visaTransformable.setIdPasseport(passport.getIdPasseport());
-        visaTransformable.setIdVisaTransformable(visaTransformable.getIdVisaTransformable());
+        visaTransformable.setDemandeur(demandeur);
+        visaTransformable.setPassport(passport);
+
         visaTransformable = visaTransformableRepository.save(visaTransformable);
+
+        if (visaTransformable.getIdVisaTransformable() == null) {
+            throw new RuntimeException("Tsy misy id visa transformable !");
+        }
 
         // -- insertion
         visaTransformableRepository.save(visaTransformable);
-        demandeurRepository.save(demandeur);
 
         List<DocumentType> documentObligatoire = documentTypeRepository
-                .findByEstObligatoireTrueAndIdVisaType(visaOption);
+                .findByEstObligatoireTrueAndVisaTypeIdVisaType(visaOption);
         List<DocumentType> documentSoumis = documentTypeRepository.findAllById(documentIds);
 
         // ---- Verification des documents obligatoire
         if (!documentObligatoire.containsAll(documentSoumis)) {
-            throw new Exception("Vous devez imperativement fournir tous les documents obligatoires");
+            throw new RuntimeException("Vous devez imperativement fournir tous les documents obligatoires");
         }
 
         // --- Creation de la demande
         Demande demande = new Demande();
         demande.setDateDemande(LocalDate.now());
-        demande.setIdDemandeur(demandeur.getIdDemandeur());
-        demande.setIdTypeDemande(typeDemandeRepository.findByLibelle("Nouveau titre").getIdTypeDemande());
-        demande.setIdVisaType(visaOption);
-        demande.setIdVisaTransformable(visaTransformable.getIdVisaTransformable());
+        demande.setDemandeur(demandeur);
+        demande.setTypeDemande(typeDemandeRepository.findByLibelle("Nouveau titre"));
+        demande.setVisaType(visaTypeRepository.findById(visaOption).get());
+        demande.setVisaTransformable(visaTransformable);
 
-        demandeRepository.save(demande);
+        demande = demandeRepository.save(demande);
+
+        if (demande.getIdDemande() == null) {
+            throw new RuntimeException("TSY MISY ID LE DEMANDE");
+        }
 
         // Creation de l'historique et son statut
         DemandeStatutHistorique demandeStatutHistorique = new DemandeStatutHistorique();
@@ -122,18 +132,18 @@ public class DemandeService {
         demandeStatutHistorique
                 .setIdStatutDemande(statutDemandeRepository.findByLibelle("En attente").getIdStatutDemande());
         demandeStatutHistorique.setMotif("Nouveau demande");
-        demandeStatutHistoriqueRepository.save(demandeStatutHistorique);
+        demandeStatutHistorique = demandeStatutHistoriqueRepository.save(demandeStatutHistorique);
 
         // Insertion Documents soumis
         for (DocumentType documentType : documentSoumis) {
             VisaDocument visaDocument = new VisaDocument();
-            visaDocument.setIdTypeDocument(documentType.getIdTypeDocument());
-            visaDocument.setIdVisaDoc(documentType.getId());
-            visaDocument.setIdDemande(demande.getIdDemande());
+            visaDocument.setDocumentType(documentType);
+            visaDocument.setDemande(demande);
 
             visaDocumentRepository.save(visaDocument);
         }
 
+        System.out.println("Crée soamatsara ilay demande");
         return demande;
     }
 

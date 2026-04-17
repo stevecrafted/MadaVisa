@@ -11,7 +11,7 @@ import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotNull;
 
 @Entity
-@Table(name = "visa_doc")
+@Table(name = "visa_document")
 public class VisaDocument {
 
     @Id
