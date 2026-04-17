@@ -105,10 +105,20 @@ public class DemandeService {
 
         List<DocumentType> documentObligatoire = documentTypeRepository
                 .findByEstObligatoireTrueAndVisaTypeIdVisaType(visaOption);
+        
+        System.out.println("document obligatoires : ");
+        for (DocumentType documentType : documentObligatoire) {
+            System.out.println(documentType.getDocumentName());
+        }
+
         List<DocumentType> documentSoumis = documentTypeRepository.findAllById(documentIds);
+        System.out.println("documents soummis : ");
+        for (DocumentType documentType : documentSoumis) {
+            System.out.println(documentType.getDocumentName());
+        }
 
         // ---- Verification des documents obligatoire
-        if (!documentObligatoire.containsAll(documentSoumis)) {
+        if (!documentSoumis.containsAll(documentObligatoire)) {
             throw new RuntimeException("Vous devez imperativement fournir tous les documents obligatoires");
         }
 

@@ -83,6 +83,7 @@ public class DemandeController {
         try {
             demande = demandeService.creationDemande(demandeWrapper, documentIds, visaOption);
         } catch (Exception e) {
+            model.addAttribute("wrapper", demandeWrapper);
             model.addAttribute("errorMessage", e);
             return "visa/create";
         }
